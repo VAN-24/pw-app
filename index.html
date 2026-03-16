@@ -3,114 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>パスワード管理アプリ v3.1</title>
+  <title>パスワード管理アプリ v3.2</title>
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <style>
-    :root{
-      --bg:#f3f6fb;
-      --card:#ffffff;
-      --text:#172033;
-      --muted:#6b7280;
-      --line:#d7dfec;
-      --accent:#2563eb;
-      --accent-2:#1d4ed8;
-      --soft:#eef4ff;
-      --danger:#dc2626;
-      --danger-soft:#fee2e2;
-      --ok-soft:#dcfce7;
-      --warn:#92400e;
-      --warn-soft:#fef3c7;
-      --shadow:0 14px 40px rgba(15,23,42,.08);
-      --radius:22px;
-    }
-    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sans","Yu Gothic UI","Yu Gothic",sans-serif;}
-    body{padding:12px;}
-    button,input,select,textarea{font:inherit;}
-    button{cursor:pointer;border:none;touch-action:manipulation;}
-    .app{max-width:980px;margin:0 auto;padding-bottom:40px;}
-    .hero,.panel,.card,.modal-box,.toast,.overlay-box{background:var(--card);box-shadow:var(--shadow);border-radius:var(--radius);}
-    .hero{padding:18px 16px;margin-bottom:12px;}
-    .hero h1{margin:0;font-size:25px;line-height:1.2;}
-    .hero p{margin:8px 0 0;color:var(--muted);font-size:13px;line-height:1.6;}
-    .top-actions,.group-add,.search-row,.item-actions,.subtools,.row-inline,.generator-row,.csv-actions{display:flex;gap:8px;flex-wrap:wrap;}
-    .layout{display:grid;grid-template-columns:290px 1fr;gap:12px;}
-    .panel{padding:14px;}
-    .panel h2{margin:0 0 12px;font-size:17px;}
-    input,select,textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:16px;padding:12px 13px;outline:none;color:var(--text);}
-    textarea{min-height:110px;resize:vertical;}
-    input:focus,select:focus,textarea:focus{border-color:#93c5fd;box-shadow:0 0 0 4px rgba(37,99,235,.12);}
-    button{padding:11px 14px;border-radius:16px;background:#e9eef9;color:var(--text);}
-    button.primary{background:var(--accent);color:#fff;}
-    button.primary:hover{background:var(--accent-2);}
-    button.ghost{background:#f8fafc;}
-    button.danger{background:var(--danger-soft);color:#991b1b;}
-    button.small{padding:8px 11px;border-radius:13px;font-size:13px;}
-    .groups{display:flex;flex-direction:column;gap:9px;margin-bottom:12px;}
-    .group-btn{width:100%;text-align:left;padding:12px 14px;border-radius:18px;background:#f8fafc;border:1px solid var(--line);display:flex;align-items:center;gap:10px;justify-content:space-between;}
-    .group-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
-    .group-main{display:flex;align-items:center;gap:10px;min-width:0;}
-    .handle{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:rgba(148,163,184,.16);font-size:17px;cursor:grab;user-select:none;touch-action:none;}
-    .group-btn.active .handle{background:rgba(255,255,255,.18);}
-    .group-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .hint{font-size:12px;color:var(--muted);line-height:1.55;margin-top:8px;}
-    .search-wrap{display:flex;flex-direction:column;gap:12px;}
-    .card{padding:14px;}
-    .card-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;}
-    .title-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
-    .title{font-size:19px;font-weight:800;margin:0;word-break:break-word;}
-    .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:12px;}
-    .detail{margin-top:12px;background:#f8fafc;border-radius:18px;padding:12px;display:grid;gap:10px;}
-    .detail-line{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-    .detail-label{width:96px;color:var(--muted);font-size:13px;}
-    .detail-value{flex:1;min-width:120px;word-break:break-all;}
-    .password-mask{letter-spacing:.12em;font-weight:700;}
-    .item-actions{justify-content:flex-end;margin-top:12px;}
-    .empty{padding:34px 16px;text-align:center;color:var(--muted);}
-    .top-note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:8px;}
-    .top-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
-    .pill{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;background:var(--soft);color:#24457a;font-size:12px;}
-    .modal,.overlay{position:fixed;inset:0;background:rgba(15,23,42,.40);display:none;align-items:flex-end;justify-content:center;z-index:1000;padding:12px;}
-    .modal.show,.overlay.show{display:flex;}
-    .modal-box,.overlay-box{width:100%;max-width:700px;max-height:92vh;overflow:auto;padding:16px 16px 18px;}
-    .modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;}
-    .modal-title{font-size:20px;font-weight:800;margin:0;}
-    .form-grid{display:grid;gap:12px;}
-    .label{display:block;margin:0 0 6px 2px;font-size:13px;color:var(--muted);}
-    .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);padding:12px 14px;display:none;z-index:1200;font-size:14px;}
-    .toast.show{display:block;}
-    .generator-box,.csv-box{margin-top:8px;padding:12px;border:1px dashed var(--line);border-radius:18px;background:#fbfdff;}
-    .generator-output{font-weight:700;word-break:break-all;padding:10px 12px;border-radius:14px;background:#f4f7ff;border:1px solid var(--line);}
-    .lock-screen{max-width:520px;width:100%;padding:18px;}
-    .lock-screen h2{margin:0 0 8px;font-size:25px;}
-    .lock-screen p{margin:0 0 14px;color:var(--muted);line-height:1.6;font-size:14px;}
-    .status-line{font-size:12px;color:var(--muted);margin-top:8px;}
-    .warning{color:var(--warn);background:var(--warn-soft);border-radius:14px;padding:10px 12px;font-size:13px;line-height:1.5;}
-    .strength{padding:7px 11px;border-radius:999px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px;}
-    .strength.weak{background:#fee2e2;color:#991b1b;}
-    .strength.medium{background:#fef3c7;color:#92400e;}
-    .strength.strong{background:#dcfce7;color:#166534;}
-    .csv-help{font-size:12px;color:var(--muted);line-height:1.6;white-space:pre-line;}
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;}
-    @media (max-width:760px){
-      body{padding:10px;}
-      .layout{grid-template-columns:1fr;}
-      .hero h1{font-size:22px;}
-      .card-head{flex-direction:column;}
-      .detail-label{width:82px;}
-      .modal-box,.overlay-box{border-radius:24px 24px 18px 18px;padding-bottom:calc(18px + env(safe-area-inset-bottom));}
-      .item-actions button,.top-actions button,.group-add button,.subtools button,.row-inline button,.csv-actions button{flex:1;}
-      .lock-screen{padding-bottom:calc(18px + env(safe-area-inset-bottom));}
-    }
+    :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#6b7280;--line:#d7dfec;--accent:#2563eb;--accent2:#1d4ed8;--soft:#eef4ff;--danger:#dc2626;--dangerSoft:#fee2e2;--warn:#92400e;--warnSoft:#fef3c7;--shadow:0 14px 40px rgba(15,23,42,.08);--radius:22px}
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sans","Yu Gothic UI","Yu Gothic",sans-serif}
+    body{padding:12px}
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer;border:none;touch-action:manipulation}
+    .app{max-width:980px;margin:0 auto;padding-bottom:40px}
+    .hero,.panel,.card,.modal-box,.toast,.overlay-box{background:var(--card);box-shadow:var(--shadow);border-radius:var(--radius)}
+    .hero{padding:18px 16px;margin-bottom:12px}.hero h1{margin:0;font-size:25px;line-height:1.2}.hero p{margin:8px 0 0;color:var(--muted);font-size:13px;line-height:1.6}
+    .top-actions,.group-add,.search-row,.item-actions,.subtools,.row-inline,.generator-row,.csv-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .layout{display:grid;grid-template-columns:290px 1fr;gap:12px}.panel{padding:14px}.panel h2{margin:0 0 12px;font-size:17px}
+    input,select,textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:16px;padding:12px 13px;outline:none;color:var(--text)}
+    textarea{min-height:110px;resize:vertical} input:focus,select:focus,textarea:focus{border-color:#93c5fd;box-shadow:0 0 0 4px rgba(37,99,235,.12)}
+    button{padding:11px 14px;border-radius:16px;background:#e9eef9;color:var(--text)} button.primary{background:var(--accent);color:#fff} button.primary:hover{background:var(--accent2)} button.ghost{background:#f8fafc} button.danger{background:var(--dangerSoft);color:#991b1b} button.small{padding:8px 11px;border-radius:13px;font-size:13px}
+    .groups{display:flex;flex-direction:column;gap:9px;margin-bottom:12px}.group-btn{width:100%;text-align:left;padding:12px 14px;border-radius:18px;background:#f8fafc;border:1px solid var(--line);display:flex;align-items:center;gap:10px;justify-content:space-between}.group-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}.group-main{display:flex;align-items:center;gap:10px;min-width:0}.handle{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:rgba(148,163,184,.16);font-size:17px;cursor:grab;user-select:none;touch-action:none}.group-btn.active .handle{background:rgba(255,255,255,.18)}.group-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.hint{font-size:12px;color:var(--muted);line-height:1.55;margin-top:8px}
+    .search-wrap{display:flex;flex-direction:column;gap:12px}.card{padding:14px}.card-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.title-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.title{font-size:19px;font-weight:800;margin:0;word-break:break-word}.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:12px}.detail{margin-top:12px;background:#f8fafc;border-radius:18px;padding:12px;display:grid;gap:10px}.detail-line{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.detail-label{width:96px;color:var(--muted);font-size:13px}.detail-value{flex:1;min-width:120px;word-break:break-all}.password-mask{letter-spacing:.12em;font-weight:700}.item-actions{justify-content:flex-end;margin-top:12px}.empty{padding:34px 16px;text-align:center;color:var(--muted)}
+    .top-note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:8px}.top-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.pill{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;background:var(--soft);color:#24457a;font-size:12px}
+    .modal,.overlay{position:fixed;inset:0;background:rgba(15,23,42,.40);display:none;align-items:flex-end;justify-content:center;z-index:1000;padding:12px}.modal.show,.overlay.show{display:flex}.modal-box,.overlay-box{width:100%;max-width:700px;max-height:92vh;overflow:auto;padding:16px 16px 18px}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.modal-title{font-size:20px;font-weight:800;margin:0}.form-grid{display:grid;gap:12px}.label{display:block;margin:0 0 6px 2px;font-size:13px;color:var(--muted)}
+    .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);padding:12px 14px;display:none;z-index:1200;font-size:14px}.toast.show{display:block}
+    .generator-box,.csv-box{margin-top:8px;padding:12px;border:1px dashed var(--line);border-radius:18px;background:#fbfdff}.generator-output{font-weight:700;word-break:break-all;padding:10px 12px;border-radius:14px;background:#f4f7ff;border:1px solid var(--line)}
+    .lock-screen{max-width:520px;width:100%;padding:18px}.lock-screen h2{margin:0 0 8px;font-size:25px}.lock-screen p{margin:0 0 14px;color:var(--muted);line-height:1.6;font-size:14px}.status-line{font-size:12px;color:var(--muted);margin-top:8px}.warning{color:var(--warn);background:var(--warnSoft);border-radius:14px;padding:10px 12px;font-size:13px;line-height:1.5}
+    .strength{padding:7px 11px;border-radius:999px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px}.strength.weak{background:#fee2e2;color:#991b1b}.strength.medium{background:#fef3c7;color:#92400e}.strength.strong{background:#dcfce7;color:#166534}.csv-help{font-size:12px;color:var(--muted);line-height:1.6;white-space:pre-line}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    @media (max-width:760px){body{padding:10px}.layout{grid-template-columns:1fr}.hero h1{font-size:22px}.card-head{flex-direction:column}.detail-label{width:82px}.modal-box,.overlay-box{border-radius:24px 24px 18px 18px;padding-bottom:calc(18px + env(safe-area-inset-bottom))}.item-actions button,.top-actions button,.group-add button,.subtools button,.row-inline button,.csv-actions button{flex:1}.lock-screen{padding-bottom:calc(18px + env(safe-area-inset-bottom))}}
   </style>
 </head>
 <body>
   <div class="app" id="appRoot" style="display:none;">
     <section class="hero">
-      <h1>パスワード管理アプリ v3.1</h1>
-      <p>スマホ特化の強化版です。暗号化保存、自動ロック、CSV一括インポート、CSVエクスポート、パスワード強度表示、サイトアイコン表示に対応しています。</p>
+      <h1>パスワード管理アプリ v3.2</h1>
+      <p>暗号化保存、自動ロック、CSV一括インポート、CSVエクスポート、パスワード強度表示、サイトアイコン表示に対応しています。</p>
       <div class="top-badges">
         <span class="pill">🔒 暗号化保存</span>
         <span class="pill">📥 CSV一括取込</span>
@@ -138,13 +65,10 @@
           <button id="addGroupBtn">追加</button>
         </div>
         <div class="hint">左の「≡」を長押しして、指で順番を変更できます。</div>
-        <div class="hint">保存データはこの端末のブラウザ内に置かれ、暗号化して保持されます。</div>
       </aside>
 
       <main class="panel search-wrap">
-        <div class="search-row">
-          <input id="searchInput" placeholder="タイトル / ID / メモで検索" />
-        </div>
+        <div class="search-row"><input id="searchInput" placeholder="タイトル / ID / メモで検索" /></div>
         <div class="subtools">
           <button class="small" id="togglePasswordBtn">パスワードを表示</button>
           <button class="small" id="changeMasterBtn">マスターパスワード変更</button>
@@ -185,14 +109,8 @@
         <button id="closeModalBtn">閉じる</button>
       </div>
       <div class="form-grid">
-        <div>
-          <label class="label">サービス名</label>
-          <input id="titleInput" />
-        </div>
-        <div>
-          <label class="label">ID / メール</label>
-          <input id="accountInput" />
-        </div>
+        <div><label class="label">サービス名</label><input id="titleInput" /></div>
+        <div><label class="label">ID / メール</label><input id="accountInput" /></div>
         <div>
           <label class="label">パスワード</label>
           <input id="passwordInput" />
@@ -207,14 +125,8 @@
           </div>
           <div class="generator-output" id="generatedOutput" style="margin-top:10px;">ここに生成結果が表示されます</div>
         </div>
-        <div>
-          <label class="label">グループ</label>
-          <select id="groupSelect"></select>
-        </div>
-        <div>
-          <label class="label">メモ</label>
-          <textarea id="memoInput"></textarea>
-        </div>
+        <div><label class="label">グループ</label><select id="groupSelect"></select></div>
+        <div><label class="label">メモ</label><textarea id="memoInput"></textarea></div>
       </div>
       <div class="row-inline" style="margin-top:14px;justify-content:flex-end;">
         <button id="cancelBtn">キャンセル</button>
@@ -256,11 +168,11 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
   <div class="toast" id="toast"></div>
 
   <script>
-    const STORAGE_KEY = 'pw-manager-encrypted-v3_1';
+    const STORAGE_KEY = 'pw-manager-encrypted-v3_2';
     const AUTO_LOCK_MS = 3 * 60 * 1000;
 
     function uid(){
-      return 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,8);
+      return 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
     }
 
     const demoPlain = {
@@ -351,11 +263,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       els.searchInput.addEventListener('input', renderItems);
       els.addGroupBtn.addEventListener('click', addGroup);
       els.newGroupInput.addEventListener('keydown', function(e){ if(e.key === 'Enter') addGroup(); });
-      els.togglePasswordBtn.addEventListener('click', function(){
-        state.settings.showPassword = !state.settings.showPassword;
-        persistState();
-        renderItems();
-      });
+      els.togglePasswordBtn.addEventListener('click', function(){ state.settings.showPassword = !state.settings.showPassword; persistState(); renderItems(); });
       els.backupBtn.addEventListener('click', backupEncryptedJson);
       els.restoreBtn.addEventListener('click', function(){ els.restoreFile.click(); });
       els.restoreFile.addEventListener('change', restoreEncryptedJson);
@@ -363,27 +271,11 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       els.changeMasterBtn.addEventListener('click', changeMasterPassword);
       els.resetDemoBtn.addEventListener('click', resetDemo);
       els.faceIdBtn.addEventListener('click', showFaceIdStatus);
-      els.generateBtn.addEventListener('click', function(){
-        generatedPassword = makePassword(18);
-        els.generatedOutput.textContent = generatedPassword;
-        els.passwordInput.value = generatedPassword;
-        updateStrengthBadge();
-      });
-      els.useGeneratedBtn.addEventListener('click', function(){
-        if(!generatedPassword) generatedPassword = makePassword(18);
-        els.passwordInput.value = generatedPassword;
-        els.generatedOutput.textContent = generatedPassword;
-        updateStrengthBadge();
-        showToast('生成したパスワードを反映しました');
-      });
-      els.copyGeneratedBtn.addEventListener('click', function(){
-        if(!generatedPassword) generatedPassword = makePassword(18);
-        els.generatedOutput.textContent = generatedPassword;
-        copyText(generatedPassword, '生成パスワードをコピーしました');
-      });
+      els.generateBtn.addEventListener('click', function(){ generatedPassword = makePassword(18); els.generatedOutput.textContent = generatedPassword; els.passwordInput.value = generatedPassword; updateStrengthBadge(); });
+      els.useGeneratedBtn.addEventListener('click', function(){ if(!generatedPassword) generatedPassword = makePassword(18); els.passwordInput.value = generatedPassword; els.generatedOutput.textContent = generatedPassword; updateStrengthBadge(); showToast('生成したパスワードを反映しました'); });
+      els.copyGeneratedBtn.addEventListener('click', function(){ if(!generatedPassword) generatedPassword = makePassword(18); els.generatedOutput.textContent = generatedPassword; copyText(generatedPassword, '生成パスワードをコピーしました'); });
       els.unlockBtn.addEventListener('click', handleUnlock);
       els.modal.addEventListener('click', function(e){ if(e.target === els.modal) closeModal(); });
-
       els.csvImportOpenBtn.addEventListener('click', openCsvModal);
       els.closeCsvModalBtn.addEventListener('click', closeCsvModal);
       els.csvModal.addEventListener('click', function(e){ if(e.target === els.csvModal) closeCsvModal(); });
@@ -394,13 +286,8 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       els.csvImportReplaceBtn.addEventListener('click', function(){ importCsvText(els.csvTextInput.value, true); });
       els.csvSampleBtn.addEventListener('click', downloadSampleCsv);
       els.csvExportBtn.addEventListener('click', exportCsv);
-
-      ['click','keydown','touchstart','scroll'].forEach(function(name){
-        window.addEventListener(name, function(){ if(unlockedPassword) scheduleAutoLock(); }, { passive: true });
-      });
-      document.addEventListener('visibilitychange', function(){
-        if(document.hidden && unlockedPassword) scheduleAutoLock(30000);
-      });
+      ['click','keydown','touchstart','scroll'].forEach(function(name){ window.addEventListener(name, function(){ if(unlockedPassword) scheduleAutoLock(); }, { passive: true }); });
+      document.addEventListener('visibilitychange', function(){ if(document.hidden && unlockedPassword) scheduleAutoLock(30000); });
     }
 
     function prepareLockScreen(){
@@ -410,7 +297,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
         els.lockDesc.textContent = 'マスターパスワードを入力してロックを解除してください。';
         els.masterConfirmWrap.style.display = 'none';
         els.lockStatus.textContent = '保存済みデータあり';
-      }else{
+      } else {
         els.lockTitle.textContent = 'はじめに設定';
         els.lockDesc.textContent = '最初にマスターパスワードを設定すると、保存内容を暗号化して保持します。';
         els.masterConfirmWrap.style.display = '';
@@ -423,7 +310,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       const confirmText = els.masterConfirmInput.value;
       const hasSaved = !!localStorage.getItem(STORAGE_KEY);
       if(!master || master.length < 4){ showToast('4文字以上で入力してください'); return; }
-      try{
+      try {
         if(!hasSaved){
           if(master !== confirmText){ showToast('確認用パスワードが一致しません'); return; }
           state = JSON.parse(JSON.stringify(demoPlain));
@@ -433,12 +320,11 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
           showToast('初期設定が完了しました');
           return;
         }
-        const plain = await decryptStored(master);
-        state = plain;
+        state = await decryptStored(master);
         unlockedPassword = master;
         unlockUI();
         showToast('ロックを解除しました');
-      }catch(err){
+      } catch(err){
         showToast('マスターパスワードが違うか、データを復号できません');
       }
     }
@@ -465,12 +351,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
 
     function scheduleAutoLock(ms){
       clearTimeout(autoLockTimer);
-      autoLockTimer = setTimeout(function(){
-        if(unlockedPassword){
-          lockApp();
-          showToast('自動ロックしました');
-        }
-      }, ms || AUTO_LOCK_MS);
+      autoLockTimer = setTimeout(function(){ if(unlockedPassword){ lockApp(); showToast('自動ロックしました'); } }, ms || AUTO_LOCK_MS);
     }
 
     function render(){
@@ -481,7 +362,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
     }
 
     function renderGroupOptions(){
-      els.groupSelect.innerHTML = state.groups.map(function(g){ return '<option value="' + escapeHtml(g.id) + '">' + escapeHtml(g.name) + '</option>'; }).join('');
+      els.groupSelect.innerHTML = state.groups.map(function(g){ return '<option value="' + esc(g.id) + '">' + esc(g.name) + '</option>'; }).join('');
     }
 
     function renderGroups(){
@@ -489,25 +370,16 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       html.push('<button class="group-btn ' + (selectedGroup === 'all' ? 'active' : '') + '" data-group="all"><span class="group-main"><span class="handle" style="visibility:hidden">≡</span><span class="group-name">すべて</span></span><span>' + state.items.length + '</span></button>');
       state.groups.forEach(function(group){
         const count = state.items.filter(function(x){ return x.groupId === group.id; }).length;
-        html.push('<div class="group-btn ' + (selectedGroup === group.id ? 'active' : '') + '" data-group="' + escapeHtml(group.id) + '" data-sort-group="' + escapeHtml(group.id) + '"><span class="group-main"><span class="handle" draggable="true">≡</span><span class="group-name">' + escapeHtml(group.name) + '</span></span><span>' + count + '</span></div>');
+        html.push('<div class="group-btn ' + (selectedGroup === group.id ? 'active' : '') + '" data-group="' + esc(group.id) + '" data-sort-group="' + esc(group.id) + '"><span class="group-main"><span class="handle" draggable="true">≡</span><span class="group-name">' + esc(group.name) + '</span></span><span>' + count + '</span></div>');
       });
       els.groupList.innerHTML = html.join('');
-
       els.groupList.querySelectorAll('[data-group]').forEach(function(el){
-        el.addEventListener('click', function(e){
-          if(e.target.classList.contains('handle')) return;
-          selectedGroup = el.dataset.group;
-          renderGroups();
-          renderItems();
-        });
+        el.addEventListener('click', function(e){ if(e.target.classList.contains('handle')) return; selectedGroup = el.dataset.group; renderGroups(); renderItems(); });
       });
       els.groupList.querySelectorAll('[data-sort-group]').forEach(function(el){
         const groupId = el.dataset.sortGroup;
         const handle = el.querySelector('.handle');
-        handle.addEventListener('dragstart', function(e){
-          dragGroupId = groupId;
-          e.dataTransfer.effectAllowed = 'move';
-        });
+        handle.addEventListener('dragstart', function(e){ dragGroupId = groupId; e.dataTransfer.effectAllowed = 'move'; });
         el.addEventListener('dragover', function(e){ e.preventDefault(); });
         el.addEventListener('drop', async function(e){
           e.preventDefault();
@@ -529,33 +401,19 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       const keyword = (els.searchInput.value || '').trim().toLowerCase();
       const items = state.items.filter(function(item){
         const byGroup = selectedGroup === 'all' ? true : item.groupId === selectedGroup;
-        const text = [item.title, item.account, item.memo, getGroupNameById(item.groupId)].join(' ').toLowerCase();
-        return byGroup && (!keyword || text.includes(keyword));
+        const text = [item.title || '', item.account || '', item.memo || '', getGroupNameById(item.groupId) || ''].join(' ').toLowerCase();
+        return byGroup && (!keyword || text.indexOf(keyword) >= 0);
       });
-      if(items.length === 0){
-        els.itemList.innerHTML = '<div class="card empty">データがありません</div>';
-        return;
-      }
+      if(items.length === 0){ els.itemList.innerHTML = '<div class="card empty">データがありません</div>'; return; }
       els.itemList.innerHTML = items.map(function(item){
         const groupName = getGroupNameById(item.groupId) || '未分類';
-        const pw = state.settings.showPassword ? escapeHtml(item.password) : '••••••••••••';
+        const pw = state.settings.showPassword ? esc(item.password) : '••••••••••••';
         const icon = serviceIcon(item.title);
-        return '<div class="card"><div class="card-head"><div style="flex:1;min-width:0;"><div class="title-row"><span style="font-size:24px;line-height:1;">' + icon + '</span><h3 class="title">' + escapeHtml(item.title) + '</h3><span class="badge">' + escapeHtml(groupName) + '</span></div><div class="detail"><div class="detail-line"><div class="detail-label">ID/メール</div><div class="detail-value">' + escapeHtml(item.account) + '</div><button class="small" data-copy="' + attrEscape(item.account) + '">コピー</button></div><div class="detail-line"><div class="detail-label">パスワード</div><div class="detail-value password-mask">' + pw + '</div><button class="small" data-copy="' + attrEscape(item.password) + '">コピー</button></div><div class="detail-line"><div class="detail-label">メモ</div><div class="detail-value">' + escapeHtml(item.memo || '') + '</div></div></div></div></div><div class="item-actions"><button data-edit="' + attrEscape(item.id) + '">編集</button><button class="danger" data-delete="' + attrEscape(item.id) + '">削除</button></div></div>';
+        return '<div class="card"><div class="card-head"><div style="flex:1;min-width:0;"><div class="title-row"><span style="font-size:24px;line-height:1;">' + icon + '</span><h3 class="title">' + esc(item.title) + '</h3><span class="badge">' + esc(groupName) + '</span></div><div class="detail"><div class="detail-line"><div class="detail-label">ID/メール</div><div class="detail-value">' + esc(item.account) + '</div><button class="small" data-copy="' + escAttr(item.account) + '">コピー</button></div><div class="detail-line"><div class="detail-label">パスワード</div><div class="detail-value password-mask">' + pw + '</div><button class="small" data-copy="' + escAttr(item.password) + '">コピー</button></div><div class="detail-line"><div class="detail-label">メモ</div><div class="detail-value">' + esc(item.memo || '') + '</div></div></div></div></div><div class="item-actions"><button data-edit="' + escAttr(item.id) + '">編集</button><button class="danger" data-delete="' + escAttr(item.id) + '">削除</button></div></div>';
       }).join('');
-
       els.itemList.querySelectorAll('[data-copy]').forEach(function(btn){ btn.addEventListener('click', function(){ copyText(btn.dataset.copy, 'コピーしました'); }); });
       els.itemList.querySelectorAll('[data-edit]').forEach(function(btn){ btn.addEventListener('click', function(){ openEditModal(btn.dataset.edit); }); });
-      els.itemList.querySelectorAll('[data-delete]').forEach(function(btn){ btn.addEventListener('click', async function(){
-        const id = btn.dataset.delete;
-        const item = state.items.find(function(x){ return x.id === id; });
-        if(!item) return;
-        if(confirm('「' + item.title + '」を削除しますか？')){
-          state.items = state.items.filter(function(x){ return x.id !== id; });
-          await persistState();
-          render();
-          showToast('削除しました');
-        }
-      }); });
+      els.itemList.querySelectorAll('[data-delete]').forEach(function(btn){ btn.addEventListener('click', async function(){ const id = btn.dataset.delete; const item = state.items.find(function(x){ return x.id === id; }); if(!item) return; if(confirm('「' + item.title + '」を削除しますか？')){ state.items = state.items.filter(function(x){ return x.id !== id; }); await persistState(); render(); showToast('削除しました'); } }); });
     }
 
     function openNewModal(){
@@ -588,11 +446,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       openModal();
     }
 
-    function openModal(){
-      renderGroupOptions();
-      els.modal.classList.add('show');
-      setTimeout(function(){ els.titleInput.focus(); }, 60);
-    }
+    function openModal(){ renderGroupOptions(); els.modal.classList.add('show'); setTimeout(function(){ els.titleInput.focus(); }, 60); }
     function closeModal(){ els.modal.classList.remove('show'); }
     function openCsvModal(){ els.csvModal.classList.add('show'); setTimeout(function(){ els.csvTextInput.focus(); }, 50); }
     function closeCsvModal(){ els.csvModal.classList.remove('show'); }
@@ -607,13 +461,9 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       if(editingId){
         const item = state.items.find(function(x){ return x.id === editingId; });
         if(!item) return;
-        item.title = title;
-        item.account = account;
-        item.password = password;
-        item.groupId = groupId;
-        item.memo = memo;
+        item.title = title; item.account = account; item.password = password; item.groupId = groupId; item.memo = memo;
         showToast('更新しました');
-      }else{
+      } else {
         state.items.unshift({ id: uid(), title: title, account: account, password: password, groupId: groupId, memo: memo });
         showToast('追加しました');
       }
@@ -634,11 +484,13 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
     }
 
     async function backupEncryptedJson(){
-      try{
+      try {
         const encrypted = await encryptData(unlockedPassword, state);
-        downloadTextFile(JSON.stringify({ version: 31, encrypted: encrypted }, null, 2), backupFileName('json'), 'application/json');
+        downloadTextFile(JSON.stringify({ version: 32, encrypted: encrypted }, null, 2), backupFileName('json'), 'application/json');
         showToast('暗号化バックアップを書き出しました');
-      }catch(err){ showToast('バックアップに失敗しました'); }
+      } catch(err){
+        showToast('バックアップに失敗しました');
+      }
     }
 
     function restoreEncryptedJson(e){
@@ -646,7 +498,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       if(!file) return;
       const reader = new FileReader();
       reader.onload = async function(){
-        try{
+        try {
           const raw = JSON.parse(reader.result);
           if(!raw.encrypted) throw new Error('invalid');
           const plain = await decryptPayload(unlockedPassword, raw.encrypted);
@@ -654,7 +506,9 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
           await persistState();
           render();
           showToast('バックアップを復元しました');
-        }catch(err){ showToast('読込に失敗しました。マスターパスワード不一致の可能性があります'); }
+        } catch(err){
+          showToast('読込に失敗しました。マスターパスワード不一致の可能性があります');
+        }
         e.target.value = '';
       };
       reader.readAsText(file, 'utf-8');
@@ -700,9 +554,9 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       if(/[a-z]/.test(v) && /[A-Z]/.test(v)) score++;
       if(/[0-9]/.test(v)) score++;
       if(/[^A-Za-z0-9]/.test(v)) score++;
-      if(score <= 2) return { level:'weak', label:'弱い' };
-      if(score <= 4) return { level:'medium', label:'普通' };
-      return { level:'strong', label:'強い' };
+      if(score <= 2) return { level: 'weak', label: '弱い' };
+      if(score <= 4) return { level: 'medium', label: '普通' };
+      return { level: 'strong', label: '強い' };
     }
 
     async function handleCsvFilePick(e){
@@ -717,50 +571,43 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
     async function importCsvText(text, replaceMode){
       const trimmed = (text || '').trim();
       if(!trimmed){ showToast('CSV内容がありません'); return; }
-      try{
+      try {
         const rows = parseCsv(trimmed);
         if(rows.length < 2){ showToast('CSVの行数が不足しています'); return; }
         const headerMap = buildHeaderMap(rows[0]);
         const imported = [];
-        const groupsToEnsure = new Set();
+        const groupsToEnsure = {};
         for(let i = 1; i < rows.length; i++){
           const row = rows[i];
           if(row.every(function(x){ return String(x).trim() === ''; })) continue;
           const title = pickCell(row, headerMap, ['title','サービス名','service','name']);
-          const account = pickCell(row, headerMap, ['account','id','email','メール','ID','アカウント']);
+          const account = pickCell(row, headerMap, ['account','id','email','メール','アカウント']);
           const password = pickCell(row, headerMap, ['password','パスワード','pass']);
           const memo = pickCell(row, headerMap, ['memo','メモ','note']);
           const group = pickCell(row, headerMap, ['group','グループ','folder','カテゴリ']) || '未分類';
           if(!title && !account && !password) continue;
           if(!title || !account || !password) continue;
-          groupsToEnsure.add(group);
+          groupsToEnsure[group] = true;
           imported.push({ title: title, account: account, password: password, memo: memo, groupName: group });
         }
-        if(imported.length === 0){ showToast('取込対象がありませんでした'); return; }
-        groupsToEnsure.forEach(function(g){ ensureGroup(g); });
-        const newItems = imported.map(function(r){
-          return { id: uid(), title: r.title, account: r.account, password: r.password, memo: r.memo, groupId: getOrCreateGroupIdByName(r.groupName) };
-        });
-        if(replaceMode){
-          if(!confirm('既存データを消してCSV内容に置き換えますか？')) return;
-          state.items = newItems;
-        }else{
-          state.items = newItems.concat(state.items);
-        }
+        const count = imported.length;
+        if(count === 0){ showToast('取込対象がありませんでした'); return; }
+        Object.keys(groupsToEnsure).forEach(function(g){ ensureGroup(g); });
+        const newItems = imported.map(function(r){ return { id: uid(), title: r.title, account: r.account, password: r.password, memo: r.memo, groupId: getOrCreateGroupIdByName(r.groupName) }; });
+        if(replaceMode){ if(!confirm('既存データを消してCSV内容に置き換えますか？')) return; state.items = newItems; }
+        else { state.items = newItems.concat(state.items); }
         await persistState();
         render();
         closeCsvModal();
-        showToast(String(newItems.length) + '件を取り込みました');
-      }catch(err){
+        showToast(String(count) + '件を取り込みました');
+      } catch(err){
         showToast('CSV取込に失敗しました');
       }
     }
 
     function exportCsv(){
       const rows = [['title','account','password','memo','group']];
-      state.items.forEach(function(item){
-        rows.push([item.title || '', item.account || '', item.password || '', item.memo || '', getGroupNameById(item.groupId) || '']);
-      });
+      state.items.forEach(function(item){ rows.push([item.title || '', item.account || '', item.password || '', item.memo || '', getGroupNameById(item.groupId) || '']); });
       const csv = rows.map(function(r){ return r.map(csvEscape).join(','); }).join('
 ');
       downloadTextFile(csv, backupFileName('csv'), 'text/csv;charset=utf-8');
@@ -791,24 +638,20 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
         if(c === '"'){
           if(inQuotes && n === '"'){ cell += '"'; i++; }
           else { inQuotes = !inQuotes; }
-        }else if(c === ',' && !inQuotes){
+        } else if(c === ',' && !inQuotes){
           row.push(cell); cell = '';
-        }else if((c === '
+        } else if((c === '
 ' || c === '
 ') && !inQuotes){
           if(c === '
 ' && n === '
 ') i++;
-          row.push(cell);
-          rows.push(row);
-          row = [];
-          cell = '';
-        }else{
+          row.push(cell); rows.push(row); row = []; cell = '';
+        } else {
           cell += c;
         }
       }
-      row.push(cell);
-      rows.push(row);
+      row.push(cell); rows.push(row);
       return rows;
     }
 
@@ -817,18 +660,22 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       headerRow.forEach(function(h, idx){ map[String(h || '').trim().toLowerCase()] = idx; });
       return map;
     }
+
     function pickCell(row, map, names){
       for(let i = 0; i < names.length; i++){
-        const key = String(names[i]).trim().toLowerCase();
-        const idx = map[key];
+        const idx = map[String(names[i]).trim().toLowerCase()];
         if(idx != null) return String(row[idx] || '').trim();
       }
       return '';
     }
+
     function csvEscape(v){
       const s = String(v == null ? '' : v);
-      if(/[",
-]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+      if(s.indexOf('"') >= 0 || s.indexOf(',') >= 0 || s.indexOf('
+') >= 0 || s.indexOf('
+') >= 0){
+        return '"' + s.replace(/"/g, '""') + '"';
+      }
       return s;
     }
 
@@ -836,24 +683,32 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       const n = String(name || '').trim() || '未分類';
       if(!state.groups.some(function(g){ return g.name === n; })) state.groups.push({ id: uid(), name: n });
     }
+
     function getOrCreateGroupIdByName(name){
       const n = String(name || '').trim() || '未分類';
       let g = state.groups.find(function(x){ return x.name === n; });
       if(!g){ g = { id: uid(), name: n }; state.groups.push(g); }
       return g.id;
     }
-    function getGroupNameById(id){ const g = state.groups.find(function(x){ return x.id === id; }); return g ? g.name : ''; }
+
+    function getGroupNameById(id){
+      const g = state.groups.find(function(x){ return x.id === id; });
+      return g ? g.name : '';
+    }
 
     async function persistState(){
       if(!unlockedPassword || !state) return;
       const encrypted = await encryptData(unlockedPassword, state);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 31, encrypted: encrypted }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 32, encrypted: encrypted }));
     }
+
     async function decryptStored(password){
       const raw = JSON.parse(localStorage.getItem(STORAGE_KEY));
       if(!raw || !raw.encrypted) throw new Error('missing');
-      return normalizePlainState(await decryptPayload(password, raw.encrypted));
+      const plain = await decryptPayload(password, raw.encrypted);
+      return normalizePlainState(plain);
     }
+
     function normalizePlainState(data){
       return {
         settings: { showPassword: !!(data && data.settings && data.settings.showPassword) },
@@ -871,6 +726,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       const cipher = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, encoded);
       return { salt: bytesToBase64(salt), iv: bytesToBase64(iv), data: bytesToBase64(new Uint8Array(cipher)) };
     }
+
     async function decryptPayload(password, payload){
       const salt = base64ToBytes(payload.salt);
       const iv = base64ToBytes(payload.iv);
@@ -879,78 +735,40 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, key, data);
       return JSON.parse(new TextDecoder().decode(plain));
     }
+
     async function deriveKey(password, salt){
       const enc = new TextEncoder();
       const material = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
-      return await crypto.subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: 250000, hash: 'SHA-256' }, material, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+      return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: 250000, hash: 'SHA-256' }, material, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
     }
 
     function bytesToBase64(bytes){ let str = ''; bytes.forEach(function(b){ str += String.fromCharCode(b); }); return btoa(str); }
     function base64ToBytes(base64){ const bin = atob(base64); const bytes = new Uint8Array(bin.length); for(let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i); return bytes; }
-
-    function makePassword(length){
-      const len = length || 18;
-      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*_-+=';
-      const bytes = crypto.getRandomValues(new Uint8Array(len));
-      let out = '';
-      for(let i = 0; i < len; i++) out += chars[bytes[i] % chars.length];
-      return out;
-    }
-
-    async function copyText(text, message){
-      try{ await navigator.clipboard.writeText(text); showToast(message); }
-      catch(e){ showToast('コピーに失敗しました'); }
-    }
+    function makePassword(length){ const len = length || 18; const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*_-+='; const bytes = crypto.getRandomValues(new Uint8Array(len)); let out = ''; for(let i = 0; i < len; i++) out += chars[bytes[i] % chars.length]; return out; }
+    async function copyText(text, message){ try { await navigator.clipboard.writeText(text); showToast(message); } catch(e){ showToast('コピーに失敗しました'); } }
 
     function serviceIcon(name){
       const s = String(name || '').toLowerCase();
-      if(s.includes('google')) return '🔎';
-      if(s.includes('amazon')) return '🛒';
-      if(s.includes('apple') || s.includes('icloud')) return '🍎';
-      if(s.includes('microsoft') || s.includes('outlook') || s.includes('office')) return '🪟';
-      if(s.includes('x') || s.includes('twitter')) return '🐦';
-      if(s.includes('facebook') || s.includes('meta')) return '📘';
-      if(s.includes('line')) return '💬';
-      if(s.includes('yahoo')) return '🟣';
-      if(s.includes('rakuten')) return '🎁';
-      if(s.includes('bank') || s.includes('銀行')) return '🏦';
-      if(s.includes('vpn')) return '🔐';
-      if(s.includes('github')) return '🐙';
+      if(s.indexOf('google') >= 0) return '🔎';
+      if(s.indexOf('amazon') >= 0) return '🛒';
+      if(s.indexOf('apple') >= 0 || s.indexOf('icloud') >= 0) return '🍎';
+      if(s.indexOf('microsoft') >= 0 || s.indexOf('outlook') >= 0 || s.indexOf('office') >= 0) return '🪟';
+      if(s.indexOf('x') >= 0 || s.indexOf('twitter') >= 0) return '🐦';
+      if(s.indexOf('facebook') >= 0 || s.indexOf('meta') >= 0) return '📘';
+      if(s.indexOf('line') >= 0) return '💬';
+      if(s.indexOf('yahoo') >= 0) return '🟣';
+      if(s.indexOf('rakuten') >= 0) return '🎁';
+      if(s.indexOf('bank') >= 0 || s.indexOf('銀行') >= 0) return '🏦';
+      if(s.indexOf('vpn') >= 0) return '🔐';
+      if(s.indexOf('github') >= 0) return '🐙';
       return '🔑';
     }
 
-    function backupFileName(ext){
-      const d = new Date();
-      const pad = function(n){ return String(n).padStart(2, '0'); };
-      return 'pw_backup_' + d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + '_' + pad(d.getHours()) + pad(d.getMinutes()) + '.' + ext;
-    }
-    function downloadTextFile(text, filename, mime){
-      const blob = new Blob([text], { type: mime });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = filename;
-      a.click();
-      setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
-    }
-
-    function showToast(message){
-      els.toast.textContent = message;
-      els.toast.classList.add('show');
-      clearTimeout(showToast.timer);
-      showToast.timer = setTimeout(function(){ els.toast.classList.remove('show'); }, 1700);
-    }
-
-    function escapeHtml(str){
-      return String(str == null ? '' : str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
-    function attrEscape(str){
-      return escapeHtml(str).replace(/`/g, '&#96;');
-    }
+    function backupFileName(ext){ const d = new Date(); const pad = function(n){ return String(n).padStart(2, '0'); }; return 'pw_backup_' + d.getFullYear() + pad(d.getMonth()+1) + pad(d.getDate()) + '_' + pad(d.getHours()) + pad(d.getMinutes()) + '.' + ext; }
+    function downloadTextFile(text, filename, mime){ const blob = new Blob([text], { type: mime }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = filename; a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000); }
+    function showToast(message){ els.toast.textContent = message; els.toast.classList.add('show'); clearTimeout(showToast.timer); showToast.timer = setTimeout(function(){ els.toast.classList.remove('show'); }, 1700); }
+    function esc(str){ return String(str == null ? '' : str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
+    function escAttr(str){ return esc(str).replace(/`/g, '&#96;'); }
   </script>
 </body>
 </html>
