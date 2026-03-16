@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>パスワード管理アプリ v3</title>
+  <title>パスワード管理アプリ v3.1</title>
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -19,7 +19,6 @@
       --soft:#eef4ff;
       --danger:#dc2626;
       --danger-soft:#fee2e2;
-      --ok:#059669;
       --ok-soft:#dcfce7;
       --warn:#92400e;
       --warn-soft:#fef3c7;
@@ -40,9 +39,7 @@
     .layout{display:grid;grid-template-columns:290px 1fr;gap:12px;}
     .panel{padding:14px;}
     .panel h2{margin:0 0 12px;font-size:17px;}
-    input,select,textarea{
-      width:100%;border:1px solid var(--line);background:#fff;border-radius:16px;padding:12px 13px;outline:none;color:var(--text);
-    }
+    input,select,textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:16px;padding:12px 13px;outline:none;color:var(--text);}
     textarea{min-height:110px;resize:vertical;}
     input:focus,select:focus,textarea:focus{border-color:#93c5fd;box-shadow:0 0 0 4px rgba(37,99,235,.12);}
     button{padding:11px 14px;border-radius:16px;background:#e9eef9;color:var(--text);}
@@ -50,7 +47,6 @@
     button.primary:hover{background:var(--accent-2);}
     button.ghost{background:#f8fafc;}
     button.danger{background:var(--danger-soft);color:#991b1b;}
-    button.ok{background:var(--ok-soft);color:#166534;}
     button.small{padding:8px 11px;border-radius:13px;font-size:13px;}
     .groups{display:flex;flex-direction:column;gap:9px;margin-bottom:12px;}
     .group-btn{width:100%;text-align:left;padding:12px 14px;border-radius:18px;background:#f8fafc;border:1px solid var(--line);display:flex;align-items:center;gap:10px;justify-content:space-between;}
@@ -98,7 +94,7 @@
     .strength.strong{background:#dcfce7;color:#166534;}
     .csv-help{font-size:12px;color:var(--muted);line-height:1.6;white-space:pre-line;}
     .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;}
-    @media (max-width: 760px){
+    @media (max-width:760px){
       body{padding:10px;}
       .layout{grid-template-columns:1fr;}
       .hero h1{font-size:22px;}
@@ -113,7 +109,7 @@
 <body>
   <div class="app" id="appRoot" style="display:none;">
     <section class="hero">
-      <h1>パスワード管理アプリ v3</h1>
+      <h1>パスワード管理アプリ v3.1</h1>
       <p>スマホ特化の強化版です。暗号化保存、自動ロック、CSV一括インポート、CSVエクスポート、パスワード強度表示、サイトアイコン表示に対応しています。</p>
       <div class="top-badges">
         <span class="pill">🔒 暗号化保存</span>
@@ -164,7 +160,7 @@
     <div class="overlay-box lock-screen">
       <h2 id="lockTitle">はじめに設定</h2>
       <p id="lockDesc">最初にマスターパスワードを設定すると、保存内容を暗号化して保持します。</p>
-      <div class="warning" id="lockWarning">このマスターパスワードを忘れると、保存済みデータを復号できません。必ず忘れないものにしてください。</div>
+      <div class="warning">このマスターパスワードを忘れると、保存済みデータを復号できません。必ず忘れないものにしてください。</div>
       <div class="form-grid" style="margin-top:14px;">
         <div>
           <label class="label">マスターパスワード</label>
@@ -260,8 +256,12 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
   <div class="toast" id="toast"></div>
 
   <script>
-    const STORAGE_KEY = 'pw-manager-encrypted-v3';
+    const STORAGE_KEY = 'pw-manager-encrypted-v3_1';
     const AUTO_LOCK_MS = 3 * 60 * 1000;
+
+    function uid(){
+      return 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,8);
+    }
 
     const demoPlain = {
       settings: { showPassword: false },
@@ -332,7 +332,6 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       lockOverlay: document.getElementById('lockOverlay'),
       lockTitle: document.getElementById('lockTitle'),
       lockDesc: document.getElementById('lockDesc'),
-      lockWarning: document.getElementById('lockWarning'),
       masterInput: document.getElementById('masterInput'),
       masterConfirmInput: document.getElementById('masterConfirmInput'),
       masterConfirmWrap: document.getElementById('masterConfirmWrap'),
@@ -343,10 +342,6 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
     bindEvents();
     prepareLockScreen();
 
-    function uid(){
-      return 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,8);
-    }
-
     function bindEvents(){
       els.addBtn.addEventListener('click', openNewModal);
       els.closeModalBtn.addEventListener('click', closeModal);
@@ -355,55 +350,55 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       els.passwordInput.addEventListener('input', updateStrengthBadge);
       els.searchInput.addEventListener('input', renderItems);
       els.addGroupBtn.addEventListener('click', addGroup);
-      els.newGroupInput.addEventListener('keydown', e => { if(e.key === 'Enter') addGroup(); });
-      els.togglePasswordBtn.addEventListener('click', () => {
+      els.newGroupInput.addEventListener('keydown', function(e){ if(e.key === 'Enter') addGroup(); });
+      els.togglePasswordBtn.addEventListener('click', function(){
         state.settings.showPassword = !state.settings.showPassword;
         persistState();
         renderItems();
       });
       els.backupBtn.addEventListener('click', backupEncryptedJson);
-      els.restoreBtn.addEventListener('click', () => els.restoreFile.click());
+      els.restoreBtn.addEventListener('click', function(){ els.restoreFile.click(); });
       els.restoreFile.addEventListener('change', restoreEncryptedJson);
       els.lockNowBtn.addEventListener('click', lockApp);
       els.changeMasterBtn.addEventListener('click', changeMasterPassword);
       els.resetDemoBtn.addEventListener('click', resetDemo);
       els.faceIdBtn.addEventListener('click', showFaceIdStatus);
-      els.generateBtn.addEventListener('click', () => {
+      els.generateBtn.addEventListener('click', function(){
         generatedPassword = makePassword(18);
         els.generatedOutput.textContent = generatedPassword;
         els.passwordInput.value = generatedPassword;
         updateStrengthBadge();
       });
-      els.useGeneratedBtn.addEventListener('click', () => {
+      els.useGeneratedBtn.addEventListener('click', function(){
         if(!generatedPassword) generatedPassword = makePassword(18);
         els.passwordInput.value = generatedPassword;
         els.generatedOutput.textContent = generatedPassword;
         updateStrengthBadge();
         showToast('生成したパスワードを反映しました');
       });
-      els.copyGeneratedBtn.addEventListener('click', async () => {
+      els.copyGeneratedBtn.addEventListener('click', function(){
         if(!generatedPassword) generatedPassword = makePassword(18);
         els.generatedOutput.textContent = generatedPassword;
-        await copyText(generatedPassword, '生成パスワードをコピーしました');
+        copyText(generatedPassword, '生成パスワードをコピーしました');
       });
       els.unlockBtn.addEventListener('click', handleUnlock);
-      els.modal.addEventListener('click', e => { if(e.target === els.modal) closeModal(); });
+      els.modal.addEventListener('click', function(e){ if(e.target === els.modal) closeModal(); });
 
       els.csvImportOpenBtn.addEventListener('click', openCsvModal);
       els.closeCsvModalBtn.addEventListener('click', closeCsvModal);
-      els.csvModal.addEventListener('click', e => { if(e.target === els.csvModal) closeCsvModal(); });
-      els.csvPickBtn.addEventListener('click', () => els.csvFileInput.click());
+      els.csvModal.addEventListener('click', function(e){ if(e.target === els.csvModal) closeCsvModal(); });
+      els.csvPickBtn.addEventListener('click', function(){ els.csvFileInput.click(); });
       els.csvFileInput.addEventListener('change', handleCsvFilePick);
-      els.csvPasteBtn.addEventListener('click', () => importCsvText(els.csvTextInput.value, false));
-      els.csvImportAddBtn.addEventListener('click', () => importCsvText(els.csvTextInput.value, false));
-      els.csvImportReplaceBtn.addEventListener('click', () => importCsvText(els.csvTextInput.value, true));
+      els.csvPasteBtn.addEventListener('click', function(){ importCsvText(els.csvTextInput.value, false); });
+      els.csvImportAddBtn.addEventListener('click', function(){ importCsvText(els.csvTextInput.value, false); });
+      els.csvImportReplaceBtn.addEventListener('click', function(){ importCsvText(els.csvTextInput.value, true); });
       els.csvSampleBtn.addEventListener('click', downloadSampleCsv);
       els.csvExportBtn.addEventListener('click', exportCsv);
 
-      ['click','keydown','touchstart','scroll'].forEach(name => {
-        window.addEventListener(name, () => { if(unlockedPassword) scheduleAutoLock(); }, { passive: true });
+      ['click','keydown','touchstart','scroll'].forEach(function(name){
+        window.addEventListener(name, function(){ if(unlockedPassword) scheduleAutoLock(); }, { passive: true });
       });
-      document.addEventListener('visibilitychange', () => {
+      document.addEventListener('visibilitychange', function(){
         if(document.hidden && unlockedPassword) scheduleAutoLock(30000);
       });
     }
@@ -431,7 +426,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       try{
         if(!hasSaved){
           if(master !== confirmText){ showToast('確認用パスワードが一致しません'); return; }
-          state = structuredClone(demoPlain);
+          state = JSON.parse(JSON.stringify(demoPlain));
           unlockedPassword = master;
           await persistState();
           unlockUI();
@@ -468,14 +463,14 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       els.masterInput.focus();
     }
 
-    function scheduleAutoLock(ms = AUTO_LOCK_MS){
+    function scheduleAutoLock(ms){
       clearTimeout(autoLockTimer);
-      autoLockTimer = setTimeout(() => {
+      autoLockTimer = setTimeout(function(){
         if(unlockedPassword){
           lockApp();
           showToast('自動ロックしました');
         }
-      }, ms);
+      }, ms || AUTO_LOCK_MS);
     }
 
     function render(){
@@ -486,51 +481,39 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
     }
 
     function renderGroupOptions(){
-      els.groupSelect.innerHTML = state.groups.map(g => `<option value="${escapeHtml(g.id)}">${escapeHtml(g.name)}</option>`).join('');
+      els.groupSelect.innerHTML = state.groups.map(function(g){ return '<option value="' + escapeHtml(g.id) + '">' + escapeHtml(g.name) + '</option>'; }).join('');
     }
 
     function renderGroups(){
       const html = [];
-      html.push(`
-        <button class="group-btn ${selectedGroup === 'all' ? 'active' : ''}" data-group="all">
-          <span class="group-main"><span class="handle" style="visibility:hidden">≡</span><span class="group-name">すべて</span></span>
-          <span>${state.items.length}</span>
-        </button>
-      `);
-      for(const group of state.groups){
-        const count = state.items.filter(x => x.groupId === group.id).length;
-        html.push(`
-          <div class="group-btn ${selectedGroup === group.id ? 'active' : ''}" data-group="${escapeHtml(group.id)}" data-sort-group="${escapeHtml(group.id)}">
-            <span class="group-main">
-              <span class="handle" draggable="true">≡</span>
-              <span class="group-name">${escapeHtml(group.name)}</span>
-            </span>
-            <span>${count}</span>
-          </div>
-        `);
-      }
+      html.push('<button class="group-btn ' + (selectedGroup === 'all' ? 'active' : '') + '" data-group="all"><span class="group-main"><span class="handle" style="visibility:hidden">≡</span><span class="group-name">すべて</span></span><span>' + state.items.length + '</span></button>');
+      state.groups.forEach(function(group){
+        const count = state.items.filter(function(x){ return x.groupId === group.id; }).length;
+        html.push('<div class="group-btn ' + (selectedGroup === group.id ? 'active' : '') + '" data-group="' + escapeHtml(group.id) + '" data-sort-group="' + escapeHtml(group.id) + '"><span class="group-main"><span class="handle" draggable="true">≡</span><span class="group-name">' + escapeHtml(group.name) + '</span></span><span>' + count + '</span></div>');
+      });
       els.groupList.innerHTML = html.join('');
-      els.groupList.querySelectorAll('[data-group]').forEach(el => {
-        el.addEventListener('click', e => {
+
+      els.groupList.querySelectorAll('[data-group]').forEach(function(el){
+        el.addEventListener('click', function(e){
           if(e.target.classList.contains('handle')) return;
           selectedGroup = el.dataset.group;
           renderGroups();
           renderItems();
         });
       });
-      els.groupList.querySelectorAll('[data-sort-group]').forEach(el => {
+      els.groupList.querySelectorAll('[data-sort-group]').forEach(function(el){
         const groupId = el.dataset.sortGroup;
         const handle = el.querySelector('.handle');
-        handle.addEventListener('dragstart', e => {
+        handle.addEventListener('dragstart', function(e){
           dragGroupId = groupId;
           e.dataTransfer.effectAllowed = 'move';
         });
-        el.addEventListener('dragover', e => e.preventDefault());
-        el.addEventListener('drop', async e => {
+        el.addEventListener('dragover', function(e){ e.preventDefault(); });
+        el.addEventListener('drop', async function(e){
           e.preventDefault();
           if(!dragGroupId || dragGroupId === groupId) return;
-          const from = state.groups.findIndex(g => g.id === dragGroupId);
-          const to = state.groups.findIndex(g => g.id === groupId);
+          const from = state.groups.findIndex(function(g){ return g.id === dragGroupId; });
+          const to = state.groups.findIndex(function(g){ return g.id === groupId; });
           if(from < 0 || to < 0) return;
           const moved = state.groups.splice(from, 1)[0];
           state.groups.splice(to, 0, moved);
@@ -543,8 +526,8 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
     }
 
     function renderItems(){
-      const keyword = els.searchInput.value.trim().toLowerCase();
-      const items = state.items.filter(item => {
+      const keyword = (els.searchInput.value || '').trim().toLowerCase();
+      const items = state.items.filter(function(item){
         const byGroup = selectedGroup === 'all' ? true : item.groupId === selectedGroup;
         const text = [item.title, item.account, item.memo, getGroupNameById(item.groupId)].join(' ').toLowerCase();
         return byGroup && (!keyword || text.includes(keyword));
@@ -553,58 +536,26 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
         els.itemList.innerHTML = '<div class="card empty">データがありません</div>';
         return;
       }
-      els.itemList.innerHTML = items.map(item => {
+      els.itemList.innerHTML = items.map(function(item){
         const groupName = getGroupNameById(item.groupId) || '未分類';
         const pw = state.settings.showPassword ? escapeHtml(item.password) : '••••••••••••';
         const icon = serviceIcon(item.title);
-        return `
-          <div class="card">
-            <div class="card-head">
-              <div style="flex:1;min-width:0;">
-                <div class="title-row">
-                  <span style="font-size:24px;line-height:1;">${icon}</span>
-                  <h3 class="title">${escapeHtml(item.title)}</h3>
-                  <span class="badge">${escapeHtml(groupName)}</span>
-                </div>
-                <div class="detail">
-                  <div class="detail-line">
-                    <div class="detail-label">ID/メール</div>
-                    <div class="detail-value">${escapeHtml(item.account)}</div>
-                    <button class="small" data-copy="${attrEscape(item.account)}">コピー</button>
-                  </div>
-                  <div class="detail-line">
-                    <div class="detail-label">パスワード</div>
-                    <div class="detail-value password-mask">${pw}</div>
-                    <button class="small" data-copy="${attrEscape(item.password)}">コピー</button>
-                  </div>
-                  <div class="detail-line">
-                    <div class="detail-label">メモ</div>
-                    <div class="detail-value">${escapeHtml(item.memo || '')}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item-actions">
-              <button data-edit="${attrEscape(item.id)}">編集</button>
-              <button class="danger" data-delete="${attrEscape(item.id)}">削除</button>
-            </div>
-          </div>
-        `;
+        return '<div class="card"><div class="card-head"><div style="flex:1;min-width:0;"><div class="title-row"><span style="font-size:24px;line-height:1;">' + icon + '</span><h3 class="title">' + escapeHtml(item.title) + '</h3><span class="badge">' + escapeHtml(groupName) + '</span></div><div class="detail"><div class="detail-line"><div class="detail-label">ID/メール</div><div class="detail-value">' + escapeHtml(item.account) + '</div><button class="small" data-copy="' + attrEscape(item.account) + '">コピー</button></div><div class="detail-line"><div class="detail-label">パスワード</div><div class="detail-value password-mask">' + pw + '</div><button class="small" data-copy="' + attrEscape(item.password) + '">コピー</button></div><div class="detail-line"><div class="detail-label">メモ</div><div class="detail-value">' + escapeHtml(item.memo || '') + '</div></div></div></div></div><div class="item-actions"><button data-edit="' + attrEscape(item.id) + '">編集</button><button class="danger" data-delete="' + attrEscape(item.id) + '">削除</button></div></div>';
       }).join('');
 
-      els.itemList.querySelectorAll('[data-copy]').forEach(btn => btn.addEventListener('click', async () => await copyText(btn.dataset.copy, 'コピーしました')));
-      els.itemList.querySelectorAll('[data-edit]').forEach(btn => btn.addEventListener('click', () => openEditModal(btn.dataset.edit)));
-      els.itemList.querySelectorAll('[data-delete]').forEach(btn => btn.addEventListener('click', async () => {
+      els.itemList.querySelectorAll('[data-copy]').forEach(function(btn){ btn.addEventListener('click', function(){ copyText(btn.dataset.copy, 'コピーしました'); }); });
+      els.itemList.querySelectorAll('[data-edit]').forEach(function(btn){ btn.addEventListener('click', function(){ openEditModal(btn.dataset.edit); }); });
+      els.itemList.querySelectorAll('[data-delete]').forEach(function(btn){ btn.addEventListener('click', async function(){
         const id = btn.dataset.delete;
-        const item = state.items.find(x => x.id === id);
+        const item = state.items.find(function(x){ return x.id === id; });
         if(!item) return;
-        if(confirm(`「${item.title}」を削除しますか？`)){
-          state.items = state.items.filter(x => x.id !== id);
+        if(confirm('「' + item.title + '」を削除しますか？')){
+          state.items = state.items.filter(function(x){ return x.id !== id; });
           await persistState();
           render();
           showToast('削除しました');
         }
-      }));
+      }); });
     }
 
     function openNewModal(){
@@ -616,13 +567,13 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       els.accountInput.value = '';
       els.passwordInput.value = '';
       els.memoInput.value = '';
-      els.groupSelect.value = state.groups[0]?.id || '';
+      els.groupSelect.value = state.groups[0] ? state.groups[0].id : '';
       updateStrengthBadge();
       openModal();
     }
 
     function openEditModal(id){
-      const item = state.items.find(x => x.id === id);
+      const item = state.items.find(function(x){ return x.id === id; });
       if(!item) return;
       editingId = id;
       generatedPassword = item.password || '';
@@ -632,7 +583,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       els.accountInput.value = item.account || '';
       els.passwordInput.value = item.password || '';
       els.memoInput.value = item.memo || '';
-      els.groupSelect.value = item.groupId || state.groups[0]?.id || '';
+      els.groupSelect.value = item.groupId || (state.groups[0] ? state.groups[0].id : '');
       updateStrengthBadge();
       openModal();
     }
@@ -640,14 +591,10 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
     function openModal(){
       renderGroupOptions();
       els.modal.classList.add('show');
-      setTimeout(() => els.titleInput.focus(), 60);
+      setTimeout(function(){ els.titleInput.focus(); }, 60);
     }
     function closeModal(){ els.modal.classList.remove('show'); }
-
-    function openCsvModal(){
-      els.csvModal.classList.add('show');
-      setTimeout(() => els.csvTextInput.focus(), 50);
-    }
+    function openCsvModal(){ els.csvModal.classList.add('show'); setTimeout(function(){ els.csvTextInput.focus(); }, 50); }
     function closeCsvModal(){ els.csvModal.classList.remove('show'); }
 
     async function saveItem(){
@@ -658,12 +605,16 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       const memo = els.memoInput.value.trim();
       if(!title || !account || !password){ showToast('サービス名・ID/メール・パスワードは必須です'); return; }
       if(editingId){
-        const item = state.items.find(x => x.id === editingId);
+        const item = state.items.find(function(x){ return x.id === editingId; });
         if(!item) return;
-        item.title = title; item.account = account; item.password = password; item.groupId = groupId; item.memo = memo;
+        item.title = title;
+        item.account = account;
+        item.password = password;
+        item.groupId = groupId;
+        item.memo = memo;
         showToast('更新しました');
       }else{
-        state.items.unshift({ id: uid(), title, account, password, groupId, memo });
+        state.items.unshift({ id: uid(), title: title, account: account, password: password, groupId: groupId, memo: memo });
         showToast('追加しました');
       }
       await persistState();
@@ -674,8 +625,8 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
     async function addGroup(){
       const name = els.newGroupInput.value.trim();
       if(!name){ showToast('グループ名を入力してください'); return; }
-      if(state.groups.some(g => g.name === name)){ showToast('同じグループ名があります'); return; }
-      state.groups.push({ id: uid(), name });
+      if(state.groups.some(function(g){ return g.name === name; })){ showToast('同じグループ名があります'); return; }
+      state.groups.push({ id: uid(), name: name });
       els.newGroupInput.value = '';
       await persistState();
       render();
@@ -685,7 +636,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
     async function backupEncryptedJson(){
       try{
         const encrypted = await encryptData(unlockedPassword, state);
-        downloadTextFile(JSON.stringify({ version: 3, encrypted }, null, 2), backupFileName('json'), 'application/json');
+        downloadTextFile(JSON.stringify({ version: 31, encrypted: encrypted }, null, 2), backupFileName('json'), 'application/json');
         showToast('暗号化バックアップを書き出しました');
       }catch(err){ showToast('バックアップに失敗しました'); }
     }
@@ -694,7 +645,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       const file = e.target.files[0];
       if(!file) return;
       const reader = new FileReader();
-      reader.onload = async () => {
+      reader.onload = async function(){
         try{
           const raw = JSON.parse(reader.result);
           if(!raw.encrypted) throw new Error('invalid');
@@ -723,7 +674,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
 
     async function resetDemo(){
       if(!confirm('現在の保存内容を消して、サンプル状態に戻しますか？')) return;
-      state = structuredClone(demoPlain);
+      state = JSON.parse(JSON.stringify(demoPlain));
       selectedGroup = 'all';
       await persistState();
       render();
@@ -732,9 +683,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
 
     function showFaceIdStatus(){
       const supported = !!window.PublicKeyCredential;
-      alert(supported
-        ? 'このブラウザでは生体認証系APIに対応している可能性があります。今回の版ではFace IDログイン自体は未接続で、対応状況の確認のみです。'
-        : 'このブラウザでは生体認証系APIが見つかりませんでした。');
+      alert(supported ? 'このブラウザでは生体認証系APIに対応している可能性があります。今回の版ではFace IDログイン自体は未接続で、対応状況の確認のみです。' : 'このブラウザでは生体認証系APIが見つかりませんでした。');
     }
 
     function updateStrengthBadge(){
@@ -776,7 +725,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
         const groupsToEnsure = new Set();
         for(let i = 1; i < rows.length; i++){
           const row = rows[i];
-          if(row.every(x => String(x).trim() === '')) continue;
+          if(row.every(function(x){ return String(x).trim() === ''; })) continue;
           const title = pickCell(row, headerMap, ['title','サービス名','service','name']);
           const account = pickCell(row, headerMap, ['account','id','email','メール','ID','アカウント']);
           const password = pickCell(row, headerMap, ['password','パスワード','pass']);
@@ -785,30 +734,23 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
           if(!title && !account && !password) continue;
           if(!title || !account || !password) continue;
           groupsToEnsure.add(group);
-          imported.push({ title, account, password, memo, groupName: group });
+          imported.push({ title: title, account: account, password: password, memo: memo, groupName: group });
         }
         if(imported.length === 0){ showToast('取込対象がありませんでした'); return; }
-
-        for(const g of groupsToEnsure){ ensureGroup(g); }
-        const newItems = imported.map(r => ({
-          id: uid(),
-          title: r.title,
-          account: r.account,
-          password: r.password,
-          memo: r.memo,
-          groupId: getOrCreateGroupIdByName(r.groupName)
-        }));
-
+        groupsToEnsure.forEach(function(g){ ensureGroup(g); });
+        const newItems = imported.map(function(r){
+          return { id: uid(), title: r.title, account: r.account, password: r.password, memo: r.memo, groupId: getOrCreateGroupIdByName(r.groupName) };
+        });
         if(replaceMode){
           if(!confirm('既存データを消してCSV内容に置き換えますか？')) return;
           state.items = newItems;
         }else{
-          state.items = [...newItems, ...state.items];
+          state.items = newItems.concat(state.items);
         }
         await persistState();
         render();
         closeCsvModal();
-        showToast(`${newItems.length}件を取り込みました`);
+        showToast(String(newItems.length) + '件を取り込みました');
       }catch(err){
         showToast('CSV取込に失敗しました');
       }
@@ -816,28 +758,23 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
 
     function exportCsv(){
       const rows = [['title','account','password','memo','group']];
-      state.items.forEach(item => {
-        rows.push([
-          item.title || '',
-          item.account || '',
-          item.password || '',
-          item.memo || '',
-          getGroupNameById(item.groupId) || ''
-        ]);
+      state.items.forEach(function(item){
+        rows.push([item.title || '', item.account || '', item.password || '', item.memo || '', getGroupNameById(item.groupId) || '']);
       });
-      const csv = rows.map(r => r.map(csvEscape).join(',')).join('
+      const csv = rows.map(function(r){ return r.map(csvEscape).join(','); }).join('
 ');
       downloadTextFile(csv, backupFileName('csv'), 'text/csv;charset=utf-8');
       showToast('CSVを書き出しました');
     }
 
     function downloadSampleCsv(){
-      const csv = [
+      const rows = [
         ['title','account','password','memo','group'],
         ['Google','sample@gmail.com','Pass1234!','メイン','プライベート'],
         ['Amazon','hiro@example.com','Amaz0n!234','買い物用','プライベート'],
         ['社内VPN','hiro.v','VPN-secure-001','期限あり','仕事']
-      ].map(r => r.map(csvEscape).join(',')).join('
+      ];
+      const csv = rows.map(function(r){ return r.map(csvEscape).join(','); }).join('
 ');
       downloadTextFile(csv, 'sample_password_import.csv', 'text/csv;charset=utf-8');
       showToast('サンプルCSVを保存しました');
@@ -850,10 +787,10 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       let inQuotes = false;
       for(let i = 0; i < text.length; i++){
         const c = text[i];
-        const n = text[i+1];
+        const n = text[i + 1];
         if(c === '"'){
           if(inQuotes && n === '"'){ cell += '"'; i++; }
-          else inQuotes = !inQuotes;
+          else { inQuotes = !inQuotes; }
         }else if(c === ',' && !inQuotes){
           row.push(cell); cell = '';
         }else if((c === '
@@ -862,29 +799,34 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
           if(c === '
 ' && n === '
 ') i++;
-          row.push(cell); rows.push(row); row = []; cell = '';
+          row.push(cell);
+          rows.push(row);
+          row = [];
+          cell = '';
         }else{
           cell += c;
         }
       }
-      row.push(cell); rows.push(row);
+      row.push(cell);
+      rows.push(row);
       return rows;
     }
 
     function buildHeaderMap(headerRow){
       const map = {};
-      headerRow.forEach((h, idx) => { map[String(h || '').trim().toLowerCase()] = idx; });
+      headerRow.forEach(function(h, idx){ map[String(h || '').trim().toLowerCase()] = idx; });
       return map;
     }
     function pickCell(row, map, names){
-      for(const name of names){
-        const idx = map[String(name).trim().toLowerCase()];
+      for(let i = 0; i < names.length; i++){
+        const key = String(names[i]).trim().toLowerCase();
+        const idx = map[key];
         if(idx != null) return String(row[idx] || '').trim();
       }
       return '';
     }
     function csvEscape(v){
-      const s = String(v ?? '');
+      const s = String(v == null ? '' : v);
       if(/[",
 ]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
       return s;
@@ -892,31 +834,31 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
 
     function ensureGroup(name){
       const n = String(name || '').trim() || '未分類';
-      if(!state.groups.some(g => g.name === n)) state.groups.push({ id: uid(), name: n });
+      if(!state.groups.some(function(g){ return g.name === n; })) state.groups.push({ id: uid(), name: n });
     }
     function getOrCreateGroupIdByName(name){
       const n = String(name || '').trim() || '未分類';
-      let g = state.groups.find(x => x.name === n);
+      let g = state.groups.find(function(x){ return x.name === n; });
       if(!g){ g = { id: uid(), name: n }; state.groups.push(g); }
       return g.id;
     }
-    function getGroupNameById(id){ return state.groups.find(g => g.id === id)?.name || ''; }
+    function getGroupNameById(id){ const g = state.groups.find(function(x){ return x.id === id; }); return g ? g.name : ''; }
 
     async function persistState(){
       if(!unlockedPassword || !state) return;
       const encrypted = await encryptData(unlockedPassword, state);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 3, encrypted }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 31, encrypted: encrypted }));
     }
     async function decryptStored(password){
       const raw = JSON.parse(localStorage.getItem(STORAGE_KEY));
-      if(!raw?.encrypted) throw new Error('missing');
+      if(!raw || !raw.encrypted) throw new Error('missing');
       return normalizePlainState(await decryptPayload(password, raw.encrypted));
     }
     function normalizePlainState(data){
       return {
-        settings: { showPassword: !!data?.settings?.showPassword },
-        groups: Array.isArray(data?.groups) && data.groups.length ? data.groups : [{ id: uid(), name: '未分類' }],
-        items: Array.isArray(data?.items) ? data.items : []
+        settings: { showPassword: !!(data && data.settings && data.settings.showPassword) },
+        groups: Array.isArray(data && data.groups) && data.groups.length ? data.groups : [{ id: uid(), name: '未分類' }],
+        items: Array.isArray(data && data.items) ? data.items : []
       };
     }
 
@@ -926,7 +868,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       const iv = crypto.getRandomValues(new Uint8Array(12));
       const key = await deriveKey(password, salt);
       const encoded = enc.encode(JSON.stringify(data));
-      const cipher = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, encoded);
+      const cipher = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, encoded);
       return { salt: bytesToBase64(salt), iv: bytesToBase64(iv), data: bytesToBase64(new Uint8Array(cipher)) };
     }
     async function decryptPayload(password, payload){
@@ -934,29 +876,24 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       const iv = base64ToBytes(payload.iv);
       const data = base64ToBytes(payload.data);
       const key = await deriveKey(password, salt);
-      const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, data);
+      const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, key, data);
       return JSON.parse(new TextDecoder().decode(plain));
     }
     async function deriveKey(password, salt){
       const enc = new TextEncoder();
       const material = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
-      return await crypto.subtle.deriveKey(
-        { name: 'PBKDF2', salt, iterations: 250000, hash: 'SHA-256' },
-        material,
-        { name: 'AES-GCM', length: 256 },
-        false,
-        ['encrypt', 'decrypt']
-      );
+      return await crypto.subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: 250000, hash: 'SHA-256' }, material, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
     }
 
-    function bytesToBase64(bytes){ let str = ''; bytes.forEach(b => str += String.fromCharCode(b)); return btoa(str); }
-    function base64ToBytes(base64){ const bin = atob(base64); const bytes = new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i); return bytes; }
+    function bytesToBase64(bytes){ let str = ''; bytes.forEach(function(b){ str += String.fromCharCode(b); }); return btoa(str); }
+    function base64ToBytes(base64){ const bin = atob(base64); const bytes = new Uint8Array(bin.length); for(let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i); return bytes; }
 
-    function makePassword(length = 18){
+    function makePassword(length){
+      const len = length || 18;
       const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*_-+=';
-      const bytes = crypto.getRandomValues(new Uint8Array(length));
+      const bytes = crypto.getRandomValues(new Uint8Array(len));
       let out = '';
-      for(let i=0;i<length;i++) out += chars[bytes[i] % chars.length];
+      for(let i = 0; i < len; i++) out += chars[bytes[i] % chars.length];
       return out;
     }
 
@@ -984,8 +921,8 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
 
     function backupFileName(ext){
       const d = new Date();
-      const pad = n => String(n).padStart(2,'0');
-      return `pw_backup_${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}.${ext}`;
+      const pad = function(n){ return String(n).padStart(2, '0'); };
+      return 'pw_backup_' + d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + '_' + pad(d.getHours()) + pad(d.getMinutes()) + '.' + ext;
     }
     function downloadTextFile(text, filename, mime){
       const blob = new Blob([text], { type: mime });
@@ -993,20 +930,27 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       a.href = URL.createObjectURL(blob);
       a.download = filename;
       a.click();
-      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
     }
 
     function showToast(message){
       els.toast.textContent = message;
       els.toast.classList.add('show');
       clearTimeout(showToast.timer);
-      showToast.timer = setTimeout(() => els.toast.classList.remove('show'), 1700);
+      showToast.timer = setTimeout(function(){ els.toast.classList.remove('show'); }, 1700);
     }
 
     function escapeHtml(str){
-      return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+      return String(str == null ? '' : str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
     }
-    function attrEscape(str){ return escapeHtml(str).replace(/`/g,'&#96;'); }
+    function attrEscape(str){
+      return escapeHtml(str).replace(/`/g, '&#96;');
+    }
   </script>
 </body>
 </html>
