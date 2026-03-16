@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>パスワード管理アプリ</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <style>
+    :root{
+      --bg:#f3f6fb;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --line:#dbe3ee;
+      --accent:#2563eb;
+      --accent2:#1d4ed8;
+      --danger:#dc2626;
+      --shadow:0 10px 30px rgba(15,23,42,.08);
+      --radius:20px;
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sans","Yu Gothic UI","Yu Gothic",sans-serif;}
+    body{padding:12px;}
+    .app{max-width:920px;margin:0 auto;padding-bottom:40px;}
+    .hero,.panel,.card,.modal-box,.toast{background:var(--card);box-shadow:var(--shadow);border-radius:var(--radius);}
+    .hero{padding:18px 16px;margin-bottom:12px;}
+    .hero h1{margin:0;font-size:24px;}
+    .hero p{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.5;}
+    .top-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+    .layout{display:grid;grid-template-columns:280px 1fr;gap:12px;}
+    .panel{padding:14px;}
+    .panel h2{margin:0 0 12px;font-size:16px;}
+    .group-add,.search-row,.form-row,.form-actions,.item-actions,.copy-row{display:flex;gap:8px;}
+    input,select,textarea,button{font:inherit;}
+    input,select,textarea{
+      width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;
+      padding:12px 13px;outline:none;color:var(--text);
+    }
+    textarea{min-height:90px;resize:vertical;}
+    input:focus,select:focus,textarea:focus{border-color:#93c5fd;box-shadow:0 0 0 4px rgba(37,99,235,.12);}
+    button{
+      border:none;border-radius:14px;padding:11px 14px;background:#eef2ff;color:var(--text);cursor:pointer;
+      touch-action:manipulation;
+    }
+    button.primary{background:var(--accent);color:#fff;}
+    button.primary:hover{background:var(--accent2);}
+    button.danger{background:#fee2e2;color:#991b1b;}
+    button.ghost{background:#f8fafc;}
+    .full{width:100%;}
+    .groups{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+    .group-btn{
+      width:100%;text-align:left;padding:12px 14px;border-radius:16px;background:#f8fafc;border:1px solid var(--line);
+      display:flex;align-items:center;gap:10px;justify-content:space-between;
+    }
+    .group-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+    .group-main{display:flex;align-items:center;gap:10px;min-width:0;}
+    .handle{
+      width:28px;height:28px;border-radius:10px;display:grid;place-items:center;background:rgba(148,163,184,.15);
+      font-size:16px;user-select:none;touch-action:none;cursor:grab;
+    }
+    .group-btn.active .handle{background:rgba(255,255,255,.18);}
+    .group-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5;}
+    .search-wrap{display:flex;flex-direction:column;gap:12px;}
+    .list{display:flex;flex-direction:column;gap:12px;}
+    .card{padding:14px;}
+    .card-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;}
+    .title-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+    .title{font-size:19px;font-weight:700;margin:0;word-break:break-word;}
+    .badge{display:inline-block;padding:5px 10px;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:12px;}
+    .detail{margin-top:12px;background:#f8fafc;border-radius:16px;padding:12px;display:grid;gap:10px;}
+    .detail-line{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+    .detail-label{width:96px;color:var(--muted);font-size:13px;}
+    .detail-value{flex:1;min-width:120px;word-break:break-all;}
+    .password-mask{letter-spacing:.12em;}
+    .item-actions{margin-top:12px;justify-content:flex-end;flex-wrap:wrap;}
+    .empty{padding:32px 16px;text-align:center;color:var(--muted);}
+    .modal{
+      position:fixed;inset:0;background:rgba(15,23,42,.36);display:none;align-items:flex-end;justify-content:center;z-index:1000;
+      padding:12px;
+    }
+    .modal.show{display:flex;}
+    .modal-box{width:100%;max-width:640px;padding:16px 16px 18px;max-height:92vh;overflow:auto;border-radius:24px;}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;}
+    .modal-title{font-size:20px;font-weight:700;margin:0;}
+    .form-grid{display:grid;gap:12px;}
+    .label{font-size:13px;color:var(--muted);margin:0 0 6px 2px;display:block;}
+    .toast{
+      position:fixed;left:50%;bottom:16px;transform:translateX(-50%);padding:12px 14px;display:none;z-index:1100;
+      font-size:14px;
+    }
+    .toast.show{display:block;}
+    .subtools{display:flex;gap:8px;flex-wrap:wrap;}
+    .small{font-size:12px;padding:8px 10px;border-radius:12px;}
+    @media (max-width: 760px){
+      body{padding:10px;}
+      .layout{grid-template-columns:1fr;}
+      .hero h1{font-size:22px;}
+      .card-head{flex-direction:column;}
+      .detail-label{width:82px;}
+      .modal{align-items:flex-end;}
+      .modal-box{border-radius:24px 24px 18px 18px;padding-bottom:calc(18px + env(safe-area-inset-bottom));}
+      .item-actions button,.top-actions button,.group-add button,.subtools button{flex:1;}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section class="hero">
+      <h1>パスワード管理アプリ</h1>
+      <p>ストア公開なしでiPhoneのSafariから使える、単体HTML版です。<br>グループ分け、編集、指で並び替え、コピーボタンに対応しています。</p>
+      <div class="top-actions">
+        <button class="primary" id="addBtn">新規追加</button>
+        <button id="backupBtn">JSONバックアップ</button>
+        <button id="restoreBtn">JSON読込</button>
+        <input type="file" id="restoreFile" accept="application/json" style="display:none">
+      </div>
+    </section>
+
+    <div class="layout">
+      <aside class="panel">
+        <h2>グループ</h2>
+        <div class="groups" id="groupList"></div>
+        <div class="group-add">
+          <input id="newGroupInput" placeholder="例：銀行" />
+          <button id="addGroupBtn">追加</button>
+        </div>
+        <div class="hint">グループ左の「≡」を長押しして、指で順番を変更できます。</div>
+      </aside>
+
+      <main class="panel search-wrap">
+        <div class="search-row">
+          <input id="searchInput" placeholder="タイトル / ID / メモで検索" />
+        </div>
+        <div class="subtools">
+          <button class="small ghost" id="togglePasswordBtn">パスワード表示切替</button>
+        </div>
+        <div class="list" id="itemList"></div>
+      </main>
+    </div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 class="modal-title" id="modalTitle">新規追加</h3>
+        <button id="closeModalBtn">閉じる</button>
+      </div>
+      <div class="form-grid">
+        <div>
+          <label class="label">サービス名</label>
+          <input id="titleInput" />
+        </div>
+        <div>
+          <label class="label">ID / メール</label>
+          <input id="accountInput" />
+        </div>
+        <div>
+          <label class="label">パスワード</label>
+          <input id="passwordInput" />
+        </div>
+        <div>
+          <label class="label">グループ</label>
+          <select id="groupSelect"></select>
+        </div>
+        <div>
+          <label class="label">メモ</label>
+          <textarea id="memoInput"></textarea>
+        </div>
+      </div>
+      <div class="form-actions" style="margin-top:14px;justify-content:flex-end;flex-wrap:wrap;">
+        <button id="cancelBtn">キャンセル</button>
+        <button class="primary" id="saveBtn">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const STORAGE_KEY = 'iphone-password-manager-v1';
+
+    const sampleData = {
+      settings: { showPassword: false },
+      groups: [
+        { id: uid(), name: '仕事' },
+        { id: uid(), name: 'プライベート' },
+        { id: uid(), name: 'サブスク' }
+      ],
+      items: []
+    };
+
+    sampleData.items = [
+      { id: uid(), title: 'Google', account: 'sample@gmail.com', password: 'Pass1234!', memo: 'メインアカウント', groupId: sampleData.groups[1].id },
+      { id: uid(), title: 'Amazon', account: 'hiro@example.com', password: 'Amaz0n!234', memo: '買い物用', groupId: sampleData.groups[1].id },
+      { id: uid(), title: '社内VPN', account: 'hiro.v', password: 'VPN-secure-001', memo: '期限あり', groupId: sampleData.groups[0].id }
+    ];
+
+    let state = loadData();
+    let selectedGroup = 'all';
+    let editingId = null;
+    let dragGroupId = null;
+
+    const els = {
+      groupList: document.getElementById('groupList'),
+      itemList: document.getElementById('itemList'),
+      searchInput: document.getElementById('searchInput'),
+      addBtn: document.getElementById('addBtn'),
+      modal: document.getElementById('modal'),
+      modalTitle: document.getElementById('modalTitle'),
+      closeModalBtn: document.getElementById('closeModalBtn'),
+      cancelBtn: document.getElementById('cancelBtn'),
+      saveBtn: document.getElementById('saveBtn'),
+      titleInput: document.getElementById('titleInput'),
+      accountInput: document.getElementById('accountInput'),
+      passwordInput: document.getElementById('passwordInput'),
+      groupSelect: document.getElementById('groupSelect'),
+      memoInput: document.getElementById('memoInput'),
+      newGroupInput: document.getElementById('newGroupInput'),
+      addGroupBtn: document.getElementById('addGroupBtn'),
+      togglePasswordBtn: document.getElementById('togglePasswordBtn'),
+      toast: document.getElementById('toast'),
+      backupBtn: document.getElementById('backupBtn'),
+      restoreBtn: document.getElementById('restoreBtn'),
+      restoreFile: document.getElementById('restoreFile')
+    };
+
+    bindEvents();
+    render();
+
+    function uid(){
+      return 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,8);
+    }
+
+    function loadData(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return structuredClone(sampleData);
+        const parsed = JSON.parse(raw);
+        if(!parsed.groups || !parsed.items) return structuredClone(sampleData);
+        parsed.settings = parsed.settings || { showPassword:false };
+        return parsed;
+      }catch(e){
+        return structuredClone(sampleData);
+      }
+    }
+
+    function saveData(){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function bindEvents(){
+      els.addBtn.addEventListener('click', openNewModal);
+      els.closeModalBtn.addEventListener('click', closeModal);
+      els.cancelBtn.addEventListener('click', closeModal);
+      els.saveBtn.addEventListener('click', saveItem);
+      els.searchInput.addEventListener('input', renderItems);
+      els.addGroupBtn.addEventListener('click', addGroup);
+      els.newGroupInput.addEventListener('keydown', e => {
+        if(e.key === 'Enter') addGroup();
+      });
+      els.togglePasswordBtn.addEventListener('click', () => {
+        state.settings.showPassword = !state.settings.showPassword;
+        saveData();
+        renderItems();
+      });
+      els.backupBtn.addEventListener('click', backupJson);
+      els.restoreBtn.addEventListener('click', () => els.restoreFile.click());
+      els.restoreFile.addEventListener('change', restoreJson);
+      els.modal.addEventListener('click', e => {
+        if(e.target === els.modal) closeModal();
+      });
+    }
+
+    function render(){
+      renderGroupOptions();
+      renderGroups();
+      renderItems();
+      els.togglePasswordBtn.textContent = state.settings.showPassword ? 'パスワードを隠す' : 'パスワードを表示';
+    }
+
+    function renderGroupOptions(){
+      els.groupSelect.innerHTML = state.groups.map(g => `<option value="${escapeHtml(g.id)}">${escapeHtml(g.name)}</option>`).join('');
+    }
+
+    function renderGroups(){
+      const html = [];
+      html.push(`
+        <button class="group-btn ${selectedGroup === 'all' ? 'active' : ''}" data-group="all">
+          <span class="group-main"><span class="handle" style="visibility:hidden">≡</span><span class="group-name">すべて</span></span>
+          <span>${state.items.length}</span>
+        </button>
+      `);
+
+      for(const group of state.groups){
+        const count = state.items.filter(x => x.groupId === group.id).length;
+        html.push(`
+          <div class="group-btn ${selectedGroup === group.id ? 'active' : ''}" data-group="${escapeHtml(group.id)}" data-sort-group="${escapeHtml(group.id)}">
+            <span class="group-main">
+              <span class="handle" draggable="true" title="並び替え">≡</span>
+              <span class="group-name">${escapeHtml(group.name)}</span>
+            </span>
+            <span>${count}</span>
+          </div>
+        `);
+      }
+      els.groupList.innerHTML = html.join('');
+
+      els.groupList.querySelectorAll('[data-group]').forEach(el => {
+        el.addEventListener('click', e => {
+          if(e.target.classList.contains('handle')) return;
+          selectedGroup = el.dataset.group;
+          renderGroups();
+          renderItems();
+        });
+      });
+
+      els.groupList.querySelectorAll('[data-sort-group]').forEach(el => {
+        const groupId = el.dataset.sortGroup;
+        const handle = el.querySelector('.handle');
+        handle.addEventListener('dragstart', e => {
+          dragGroupId = groupId;
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        el.addEventListener('dragover', e => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+        });
+        el.addEventListener('drop', e => {
+          e.preventDefault();
+          if(!dragGroupId || dragGroupId === groupId) return;
+          const from = state.groups.findIndex(g => g.id === dragGroupId);
+          const to = state.groups.findIndex(g => g.id === groupId);
+          if(from < 0 || to < 0) return;
+          const moved = state.groups.splice(from, 1)[0];
+          state.groups.splice(to, 0, moved);
+          dragGroupId = null;
+          saveData();
+          render();
+          showToast('グループ順を変更しました');
+        });
+        handle.addEventListener('touchstart', () => {
+          dragGroupId = groupId;
+        }, {passive:true});
+        el.addEventListener('touchend', () => {
+          dragGroupId = null;
+        }, {passive:true});
+      });
+    }
+
+    function renderItems(){
+      const keyword = els.searchInput.value.trim().toLowerCase();
+      const items = state.items.filter(item => {
+        const byGroup = selectedGroup === 'all' ? true : item.groupId === selectedGroup;
+        const text = [item.title, item.account, item.memo].join(' ').toLowerCase();
+        const byText = !keyword || text.includes(keyword);
+        return byGroup && byText;
+      });
+
+      if(items.length === 0){
+        els.itemList.innerHTML = '<div class="card empty">データがありません</div>';
+        return;
+      }
+
+      els.itemList.innerHTML = items.map(item => {
+        const groupName = state.groups.find(g => g.id === item.groupId)?.name || '未分類';
+        const pw = state.settings.showPassword ? escapeHtml(item.password) : '••••••••••••';
+        return `
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <div class="title-row">
+                  <h3 class="title">${escapeHtml(item.title)}</h3>
+                  <span class="badge">${escapeHtml(groupName)}</span>
+                </div>
+                <div class="detail">
+                  <div class="detail-line">
+                    <div class="detail-label">ID/メール</div>
+                    <div class="detail-value">${escapeHtml(item.account)}</div>
+                    <button data-copy="${attrEscape(item.account)}">コピー</button>
+                  </div>
+                  <div class="detail-line">
+                    <div class="detail-label">パスワード</div>
+                    <div class="detail-value password-mask">${pw}</div>
+                    <button data-copy="${attrEscape(item.password)}">コピー</button>
+                  </div>
+                  <div class="detail-line">
+                    <div class="detail-label">メモ</div>
+                    <div class="detail-value">${escapeHtml(item.memo || '')}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="item-actions">
+              <button data-edit="${attrEscape(item.id)}">編集</button>
+              <button class="danger" data-delete="${attrEscape(item.id)}">削除</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      els.itemList.querySelectorAll('[data-copy]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          try{
+            await navigator.clipboard.writeText(btn.dataset.copy);
+            showToast('コピーしました');
+          }catch(e){
+            showToast('コピーに失敗しました');
+          }
+        });
+      });
+
+      els.itemList.querySelectorAll('[data-edit]').forEach(btn => {
+        btn.addEventListener('click', () => openEditModal(btn.dataset.edit));
+      });
+
+      els.itemList.querySelectorAll('[data-delete]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.delete;
+          const item = state.items.find(x => x.id === id);
+          if(!item) return;
+          if(confirm(`「${item.title}」を削除しますか？`)){
+            state.items = state.items.filter(x => x.id !== id);
+            saveData();
+            render();
+            showToast('削除しました');
+          }
+        });
+      });
+    }
+
+    function openNewModal(){
+      editingId = null;
+      els.modalTitle.textContent = '新規追加';
+      els.titleInput.value = '';
+      els.accountInput.value = '';
+      els.passwordInput.value = '';
+      els.memoInput.value = '';
+      els.groupSelect.value = state.groups[0]?.id || '';
+      openModal();
+    }
+
+    function openEditModal(id){
+      const item = state.items.find(x => x.id === id);
+      if(!item) return;
+      editingId = id;
+      els.modalTitle.textContent = '編集';
+      els.titleInput.value = item.title || '';
+      els.accountInput.value = item.account || '';
+      els.passwordInput.value = item.password || '';
+      els.memoInput.value = item.memo || '';
+      els.groupSelect.value = item.groupId || state.groups[0]?.id || '';
+      openModal();
+    }
+
+    function openModal(){
+      renderGroupOptions();
+      els.modal.classList.add('show');
+      setTimeout(() => els.titleInput.focus(), 50);
+    }
+
+    function closeModal(){
+      els.modal.classList.remove('show');
+    }
+
+    function saveItem(){
+      const title = els.titleInput.value.trim();
+      const account = els.accountInput.value.trim();
+      const password = els.passwordInput.value;
+      const groupId = els.groupSelect.value;
+      const memo = els.memoInput.value.trim();
+
+      if(!title || !account || !password){
+        showToast('サービス名・ID/メール・パスワードは必須です');
+        return;
+      }
+
+      if(editingId){
+        const item = state.items.find(x => x.id === editingId);
+        if(!item) return;
+        item.title = title;
+        item.account = account;
+        item.password = password;
+        item.groupId = groupId;
+        item.memo = memo;
+        showToast('更新しました');
+      }else{
+        state.items.unshift({ id: uid(), title, account, password, groupId, memo });
+        showToast('追加しました');
+      }
+      saveData();
+      render();
+      closeModal();
+    }
+
+    function addGroup(){
+      const name = els.newGroupInput.value.trim();
+      if(!name){
+        showToast('グループ名を入力してください');
+        return;
+      }
+      state.groups.push({ id: uid(), name });
+      els.newGroupInput.value = '';
+      saveData();
+      render();
+      showToast('グループを追加しました');
+    }
+
+    function backupJson(){
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type:'application/json' });
+      const a = document.createElement('a');
+      const date = new Date();
+      const pad = n => String(n).padStart(2,'0');
+      const file = `password_backup_${date.getFullYear()}${pad(date.getMonth()+1)}${pad(date.getDate())}_${pad(date.getHours())}${pad(date.getMinutes())}.json`;
+      a.href = URL.createObjectURL(blob);
+      a.download = file;
+      a.click();
+      URL.revokeObjectURL(a.href);
+      showToast('バックアップを書き出しました');
+    }
+
+    function restoreJson(e){
+      const file = e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try{
+          const data = JSON.parse(reader.result);
+          if(!Array.isArray(data.groups) || !Array.isArray(data.items)) throw new Error('invalid');
+          state = {
+            groups: data.groups,
+            items: data.items,
+            settings: data.settings || { showPassword:false }
+          };
+          saveData();
+          render();
+          showToast('JSONを読み込みました');
+        }catch(err){
+          showToast('JSONの読込に失敗しました');
+        }
+        e.target.value = '';
+      };
+      reader.readAsText(file, 'utf-8');
+    }
+
+    function showToast(message){
+      els.toast.textContent = message;
+      els.toast.classList.add('show');
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => els.toast.classList.remove('show'), 1600);
+    }
+
+    function escapeHtml(str){
+      return String(str ?? '')
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&#39;');
+    }
+    function attrEscape(str){
+      return escapeHtml(str).replace(/`/g,'&#96;');
+    }
+  </script>
+</body>
+</html>
