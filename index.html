@@ -609,6 +609,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       const rows = [['title','account','password','memo','group']];
       state.items.forEach(function(item){ rows.push([item.title || '', item.account || '', item.password || '', item.memo || '', getGroupNameById(item.groupId) || '']); });
       const csv = rows.map(function(r){ return r.map(csvEscape).join(','); }).join('\r\n');
+
       downloadTextFile(csv, backupFileName('csv'), 'text/csv;charset=utf-8', true);
       showToast('CSVを書き出しました');
     }
@@ -643,6 +644,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
           row.push(cell); rows.push(row); row = []; cell = '';
         } else {
           cell += c;
+
         }
       }
       row.push(cell); rows.push(row);
@@ -661,7 +663,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
         if(idx != null) return String(row[idx] || '').trim();
       }
       return '';
-    }
+    }  
 
     function csvEscape(v){
       const s = String(v == null ? '' : v);
@@ -669,6 +671,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
         return '"' + s.replace(/"/g, '""') + '"';
       }
       return s;
+
     }
 
     function ensureGroup(name){
