@@ -609,7 +609,8 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       const rows = [['title','account','password','memo','group']];
       state.items.forEach(function(item){ rows.push([item.title || '', item.account || '', item.password || '', item.memo || '', getGroupNameById(item.groupId) || '']); });
       const csv = rows.map(function(r){ return r.map(csvEscape).join(','); }).join('\r\n');
-      downloadTextFile(csv, backupFileName('csv'), 'text/csv;charset=utf-8');
+
+      downloadTextFile(csv, backupFileName('csv'), 'text/csv;charset=utf-8', true);
       showToast('CSVを書き出しました');
     }
 
@@ -621,7 +622,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
         ['社内VPN','hiro.v','VPN-secure-001','期限あり','仕事']
       ];
       const csv = rows.map(function(r){ return r.map(csvEscape).join(','); }).join('\r\n');
-      downloadTextFile(csv, 'sample_password_import.csv', 'text/csv;charset=utf-8');
+      downloadTextFile(csv, 'sample_password_import.csv', 'text/csv;charset=utf-8', true);
       showToast('サンプルCSVを保存しました');
     }
 
@@ -643,6 +644,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
           row.push(cell); rows.push(row); row = []; cell = '';
         } else {
           cell += c;
+
         }
       }
       row.push(cell); rows.push(row);
@@ -661,7 +663,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
         if(idx != null) return String(row[idx] || '').trim();
       }
       return '';
-    }
+    }  
 
     function csvEscape(v){
       const s = String(v == null ? '' : v);
@@ -669,6 +671,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
         return '"' + s.replace(/"/g, '""') + '"';
       }
       return s;
+
     }
 
     function ensureGroup(name){
@@ -757,7 +760,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
     }
 
     function backupFileName(ext){ const d = new Date(); const pad = function(n){ return String(n).padStart(2, '0'); }; return 'pw_backup_' + d.getFullYear() + pad(d.getMonth()+1) + pad(d.getDate()) + '_' + pad(d.getHours()) + pad(d.getMinutes()) + '.' + ext; }
-    function downloadTextFile(text, filename, mime){ const blob = new Blob([text], { type: mime }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = filename; a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000); }
+    function downloadTextFile(text, filename, mime, withBom){ const payload = withBom ? '\uFEFF' + text : text; const blob = new Blob([payload], { type: mime }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = filename; a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000); }
     function showToast(message){ els.toast.textContent = message; els.toast.classList.add('show'); clearTimeout(showToast.timer); showToast.timer = setTimeout(function(){ els.toast.classList.remove('show'); }, 1700); }
     function esc(str){ return String(str == null ? '' : str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
     function escAttr(str){ return esc(str).replace(/`/g, '&#96;'); }
