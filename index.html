@@ -17,40 +17,32 @@
     .app{max-width:980px;margin:0 auto;padding-bottom:40px}
     .hero,.panel,.card,.modal-box,.toast,.overlay-box{background:var(--card);box-shadow:var(--shadow);border-radius:var(--radius)}
     .hero{padding:18px 16px;margin-bottom:12px}.hero h1{margin:0;font-size:25px;line-height:1.2}.hero p{margin:8px 0 0;color:var(--muted);font-size:13px;line-height:1.6}
-    .top-actions,.group-add,.search-row,.item-actions,.subtools,.row-inline,.generator-row,.csv-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .top-actions,.group-add,.search-row,.item-actions,.subtools,.row-inline,.csv-actions{display:flex;gap:8px;flex-wrap:wrap}
     .layout{display:grid;grid-template-columns:290px 1fr;gap:12px}.panel{padding:14px}.panel h2{margin:0 0 12px;font-size:17px}
     input,select,textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:16px;padding:12px 13px;outline:none;color:var(--text)}
     textarea{min-height:110px;resize:vertical} input:focus,select:focus,textarea:focus{border-color:#93c5fd;box-shadow:0 0 0 4px rgba(37,99,235,.12)}
     button{padding:11px 14px;border-radius:16px;background:#e9eef9;color:var(--text)} button.primary{background:var(--accent);color:#fff} button.primary:hover{background:var(--accent2)} button.ghost{background:#f8fafc} button.danger{background:var(--dangerSoft);color:#991b1b} button.small{padding:8px 11px;border-radius:13px;font-size:13px}
     .groups{display:flex;flex-direction:column;gap:9px;margin-bottom:12px}.group-btn{width:100%;text-align:left;padding:12px 14px;border-radius:18px;background:#f8fafc;border:1px solid var(--line);display:flex;align-items:center;gap:10px;justify-content:space-between}.group-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}.group-main{display:flex;align-items:center;gap:10px;min-width:0}.handle{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:rgba(148,163,184,.16);font-size:17px;cursor:grab;user-select:none;touch-action:none}.group-btn.active .handle{background:rgba(255,255,255,.18)}.group-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.hint{font-size:12px;color:var(--muted);line-height:1.55;margin-top:8px}
     .search-wrap{display:flex;flex-direction:column;gap:12px}.card{padding:14px}.card-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.title-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.title{font-size:19px;font-weight:800;margin:0;word-break:break-word}.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:12px}.detail{margin-top:12px;background:#f8fafc;border-radius:18px;padding:12px;display:grid;gap:10px}.detail-line{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.detail-label{width:96px;color:var(--muted);font-size:13px}.detail-value{flex:1;min-width:120px;word-break:break-all}.password-mask{letter-spacing:.12em;font-weight:700}.item-actions{justify-content:flex-end;margin-top:12px}.empty{padding:34px 16px;text-align:center;color:var(--muted)}
-    .top-note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:8px}.top-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.pill{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;background:var(--soft);color:#24457a;font-size:12px}
+    .top-note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:8px}.top-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}.top-actions button{padding:13px 12px;border-radius:16px;font-weight:700}.top-actions .primary{grid-column:1 / -1}.group-tools{display:flex;align-items:center;gap:6px}.group-tools button{padding:5px 8px;border-radius:10px;font-size:12px;background:#eef2ff}.group-tools .danger{background:var(--dangerSoft);color:#991b1b}
     .modal,.overlay{position:fixed;inset:0;background:rgba(15,23,42,.40);display:none;align-items:flex-end;justify-content:center;z-index:1000;padding:12px}.modal.show,.overlay.show{display:flex}.modal-box,.overlay-box{width:100%;max-width:700px;max-height:92vh;overflow:auto;padding:16px 16px 18px}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.modal-title{font-size:20px;font-weight:800;margin:0}.form-grid{display:grid;gap:12px}.label{display:block;margin:0 0 6px 2px;font-size:13px;color:var(--muted)}
     .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);padding:12px 14px;display:none;z-index:1200;font-size:14px}.toast.show{display:block}
-    .generator-box,.csv-box{margin-top:8px;padding:12px;border:1px dashed var(--line);border-radius:18px;background:#fbfdff}.generator-output{font-weight:700;word-break:break-all;padding:10px 12px;border-radius:14px;background:#f4f7ff;border:1px solid var(--line)}
+    .csv-box{margin-top:8px;padding:12px;border:1px dashed var(--line);border-radius:18px;background:#fbfdff}
     .lock-screen{max-width:520px;width:100%;padding:18px}.lock-screen h2{margin:0 0 8px;font-size:25px}.lock-screen p{margin:0 0 14px;color:var(--muted);line-height:1.6;font-size:14px}.status-line{font-size:12px;color:var(--muted);margin-top:8px}.warning{color:var(--warn);background:var(--warnSoft);border-radius:14px;padding:10px 12px;font-size:13px;line-height:1.5}
     .strength{padding:7px 11px;border-radius:999px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px}.strength.weak{background:#fee2e2;color:#991b1b}.strength.medium{background:#fef3c7;color:#92400e}.strength.strong{background:#dcfce7;color:#166534}.csv-help{font-size:12px;color:var(--muted);line-height:1.6;white-space:pre-line}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-    @media (max-width:760px){body{padding:10px}.layout{grid-template-columns:1fr}.hero h1{font-size:22px}.card-head{flex-direction:column}.detail-label{width:82px}.modal-box,.overlay-box{border-radius:24px 24px 18px 18px;padding-bottom:calc(18px + env(safe-area-inset-bottom))}.item-actions button,.top-actions button,.group-add button,.subtools button,.row-inline button,.csv-actions button{flex:1}.lock-screen{padding-bottom:calc(18px + env(safe-area-inset-bottom))}}
+    @media (max-width:760px){body{padding:10px}.layout{grid-template-columns:1fr}.hero h1{font-size:22px}.card-head{flex-direction:column}.detail-label{width:82px}.modal-box,.overlay-box{border-radius:24px 24px 18px 18px;padding-bottom:calc(18px + env(safe-area-inset-bottom))}.item-actions button,.group-add button,.subtools button,.row-inline button,.csv-actions button{flex:1}.top-actions{grid-template-columns:repeat(2,minmax(0,1fr))}.lock-screen{padding-bottom:calc(18px + env(safe-area-inset-bottom))}}
   </style>
 </head>
 <body>
   <div class="app" id="appRoot" style="display:none;">
     <section class="hero">
       <h1>パスワード管理アプリ v3.2</h1>
-      <p>暗号化保存、自動ロック、CSV一括インポート、CSVエクスポート、パスワード強度表示、サイトアイコン表示に対応しています。</p>
-      <div class="top-badges">
-        <span class="pill">🔒 暗号化保存</span>
-        <span class="pill">📥 CSV一括取込</span>
-        <span class="pill">📤 CSV出力</span>
-        <span class="pill">⏱ 自動ロック</span>
-      </div>
-      <div class="top-actions" style="margin-top:12px;">
+      <div class="top-actions">
         <button class="primary" id="addBtn">新規追加</button>
         <button id="csvImportOpenBtn">CSVインポート</button>
         <button id="csvExportBtn">CSVエクスポート</button>
         <button id="backupBtn">暗号化バックアップ</button>
         <button id="restoreBtn">バックアップ読込</button>
-        <button id="lockNowBtn">今すぐロック</button>
         <input type="file" id="restoreFile" accept="application/json" style="display:none;">
       </div>
       <div class="top-note">CSVインポートで最初に大量登録できます。バックアップファイルはマスターパスワードで暗号化されます。</div>
@@ -64,7 +56,7 @@
           <input id="newGroupInput" placeholder="例：銀行" />
           <button id="addGroupBtn">追加</button>
         </div>
-        <div class="hint">左の「≡」を長押しして、指で順番を変更できます。</div>
+        <div class="hint">「≡」のドラッグ、または↑↓ボタンで順番変更できます。削除時は所属項目を未分類へ移動します。</div>
       </aside>
 
       <main class="panel search-wrap">
@@ -73,7 +65,7 @@
           <button class="small" id="togglePasswordBtn">パスワードを表示</button>
           <button class="small" id="changeMasterBtn">マスターパスワード変更</button>
           <button class="small ghost" id="resetDemoBtn">サンプル初期化</button>
-          <button class="small ghost" id="faceIdBtn">Face ID対応状況</button>
+          <button class="small ghost" id="faceIdBtn">Face ID設定</button>
         </div>
         <div class="list" id="itemList"></div>
       </main>
@@ -96,6 +88,7 @@
         </div>
       </div>
       <div class="row-inline" style="margin-top:14px;justify-content:flex-end;">
+        <button id="bioUnlockBtn" style="display:none;">Face ID / Touch IDで解除</button>
         <button class="primary" id="unlockBtn">開始 / ロック解除</button>
       </div>
       <div class="status-line" id="lockStatus">未設定</div>
@@ -115,15 +108,6 @@
           <label class="label">パスワード</label>
           <input id="passwordInput" />
           <div style="margin-top:8px;"><span id="strengthBadge" class="strength weak">弱い</span></div>
-        </div>
-        <div class="generator-box">
-          <div class="label" style="margin-bottom:8px;">パスワード生成</div>
-          <div class="generator-row">
-            <button type="button" id="generateBtn">生成</button>
-            <button type="button" id="useGeneratedBtn">入力欄に反映</button>
-            <button type="button" id="copyGeneratedBtn">コピー</button>
-          </div>
-          <div class="generator-output" id="generatedOutput" style="margin-top:10px;">ここに生成結果が表示されます</div>
         </div>
         <div><label class="label">グループ</label><select id="groupSelect"></select></div>
         <div><label class="label">メモ</label><textarea id="memoInput"></textarea></div>
@@ -170,6 +154,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
   <script>
     const STORAGE_KEY = 'pw-manager-encrypted-v3_2';
     const AUTO_LOCK_MS = 3 * 60 * 1000;
+    const PASSKEY_KEY = 'pw-manager-passkey-v1';
 
     function uid(){
       return 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
@@ -194,9 +179,12 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
     let selectedGroup = 'all';
     let editingId = null;
     let dragGroupId = null;
-    let generatedPassword = '';
     let unlockedPassword = '';
     let autoLockTimer = null;
+    let touchDragOverGroupId = null;
+    // WebAuthnでは復号鍵(マスターパスワード)を安全に永続保存できないため、
+    // 同一タブ内で直前に入力したパスワードのみ生体認証で再利用する方式にしています。
+    let biometricSessionPassword = '';
 
     const els = {
       appRoot: document.getElementById('appRoot'),
@@ -221,14 +209,9 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       backupBtn: document.getElementById('backupBtn'),
       restoreBtn: document.getElementById('restoreBtn'),
       restoreFile: document.getElementById('restoreFile'),
-      lockNowBtn: document.getElementById('lockNowBtn'),
       changeMasterBtn: document.getElementById('changeMasterBtn'),
       resetDemoBtn: document.getElementById('resetDemoBtn'),
       faceIdBtn: document.getElementById('faceIdBtn'),
-      generatedOutput: document.getElementById('generatedOutput'),
-      generateBtn: document.getElementById('generateBtn'),
-      useGeneratedBtn: document.getElementById('useGeneratedBtn'),
-      copyGeneratedBtn: document.getElementById('copyGeneratedBtn'),
       csvImportOpenBtn: document.getElementById('csvImportOpenBtn'),
       csvExportBtn: document.getElementById('csvExportBtn'),
       csvModal: document.getElementById('csvModal'),
@@ -247,6 +230,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       masterInput: document.getElementById('masterInput'),
       masterConfirmInput: document.getElementById('masterConfirmInput'),
       masterConfirmWrap: document.getElementById('masterConfirmWrap'),
+      bioUnlockBtn: document.getElementById('bioUnlockBtn'),
       unlockBtn: document.getElementById('unlockBtn'),
       lockStatus: document.getElementById('lockStatus')
     };
@@ -267,14 +251,11 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       els.backupBtn.addEventListener('click', backupEncryptedJson);
       els.restoreBtn.addEventListener('click', function(){ els.restoreFile.click(); });
       els.restoreFile.addEventListener('change', restoreEncryptedJson);
-      els.lockNowBtn.addEventListener('click', lockApp);
       els.changeMasterBtn.addEventListener('click', changeMasterPassword);
       els.resetDemoBtn.addEventListener('click', resetDemo);
-      els.faceIdBtn.addEventListener('click', showFaceIdStatus);
-      els.generateBtn.addEventListener('click', function(){ generatedPassword = makePassword(18); els.generatedOutput.textContent = generatedPassword; els.passwordInput.value = generatedPassword; updateStrengthBadge(); });
-      els.useGeneratedBtn.addEventListener('click', function(){ if(!generatedPassword) generatedPassword = makePassword(18); els.passwordInput.value = generatedPassword; els.generatedOutput.textContent = generatedPassword; updateStrengthBadge(); showToast('生成したパスワードを反映しました'); });
-      els.copyGeneratedBtn.addEventListener('click', function(){ if(!generatedPassword) generatedPassword = makePassword(18); els.generatedOutput.textContent = generatedPassword; copyText(generatedPassword, '生成パスワードをコピーしました'); });
+      els.faceIdBtn.addEventListener('click', setupBiometricUnlock);
       els.unlockBtn.addEventListener('click', handleUnlock);
+      els.bioUnlockBtn.addEventListener('click', handleBiometricUnlock);
       els.modal.addEventListener('click', function(e){ if(e.target === els.modal) closeModal(); });
       els.csvImportOpenBtn.addEventListener('click', openCsvModal);
       els.closeCsvModalBtn.addEventListener('click', closeCsvModal);
@@ -288,6 +269,18 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       els.csvExportBtn.addEventListener('click', exportCsv);
       ['click','keydown','touchstart','scroll'].forEach(function(name){ window.addEventListener(name, function(){ if(unlockedPassword) scheduleAutoLock(); }, { passive: true }); });
       document.addEventListener('visibilitychange', function(){ if(document.hidden && unlockedPassword) scheduleAutoLock(30000); });
+      window.addEventListener('touchmove', function(e){
+        if(!dragGroupId) return;
+        const touch = e.touches && e.touches[0];
+        if(!touch) return;
+        const target = document.elementFromPoint(touch.clientX, touch.clientY);
+        const row = target && target.closest('[data-sort-group]');
+        if(row) touchDragOverGroupId = row.getAttribute('data-sort-group');
+      }, { passive: true });
+      window.addEventListener('touchend', function(){
+        if(!dragGroupId || !touchDragOverGroupId) return;
+        reorderGroupById(touchDragOverGroupId);
+      });
     }
 
     function prepareLockScreen(){
@@ -297,11 +290,13 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
         els.lockDesc.textContent = 'マスターパスワードを入力してロックを解除してください。';
         els.masterConfirmWrap.style.display = 'none';
         els.lockStatus.textContent = '保存済みデータあり';
+        toggleBioUnlockButton();
       } else {
         els.lockTitle.textContent = 'はじめに設定';
         els.lockDesc.textContent = '最初にマスターパスワードを設定すると、保存内容を暗号化して保持します。';
         els.masterConfirmWrap.style.display = '';
         els.lockStatus.textContent = '未設定';
+        els.bioUnlockBtn.style.display = 'none';
       }
     }
 
@@ -315,6 +310,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
           if(master !== confirmText){ showToast('確認用パスワードが一致しません'); return; }
           state = JSON.parse(JSON.stringify(demoPlain));
           unlockedPassword = master;
+          biometricSessionPassword = master;
           await persistState();
           unlockUI();
           showToast('初期設定が完了しました');
@@ -322,6 +318,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
         }
         state = await decryptStored(master);
         unlockedPassword = master;
+        biometricSessionPassword = master;
         unlockUI();
         showToast('ロックを解除しました');
       } catch(err){
@@ -368,33 +365,72 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
     function renderGroups(){
       const html = [];
       html.push('<button class="group-btn ' + (selectedGroup === 'all' ? 'active' : '') + '" data-group="all"><span class="group-main"><span class="handle" style="visibility:hidden">≡</span><span class="group-name">すべて</span></span><span>' + state.items.length + '</span></button>');
-      state.groups.forEach(function(group){
+      state.groups.forEach(function(group, idx){
         const count = state.items.filter(function(x){ return x.groupId === group.id; }).length;
-        html.push('<div class="group-btn ' + (selectedGroup === group.id ? 'active' : '') + '" data-group="' + esc(group.id) + '" data-sort-group="' + esc(group.id) + '"><span class="group-main"><span class="handle" draggable="true">≡</span><span class="group-name">' + esc(group.name) + '</span></span><span>' + count + '</span></div>');
+        html.push('<div class="group-btn ' + (selectedGroup === group.id ? 'active' : '') + '" data-group="' + esc(group.id) + '" data-sort-group="' + esc(group.id) + '"><span class="group-main"><span class="handle" draggable="true" title="ドラッグして並び替え">≡</span><span class="group-name">' + esc(group.name) + '</span></span><span class="group-tools"><button type="button" data-move-up="' + esc(group.id) + '" ' + (idx === 0 ? 'disabled' : '') + '>↑</button><button type="button" data-move-down="' + esc(group.id) + '" ' + (idx === state.groups.length - 1 ? 'disabled' : '') + '>↓</button><button type="button" class="danger" data-delete-group="' + esc(group.id) + '">削除</button><span>' + count + '</span></span></div>');
       });
       els.groupList.innerHTML = html.join('');
       els.groupList.querySelectorAll('[data-group]').forEach(function(el){
-        el.addEventListener('click', function(e){ if(e.target.classList.contains('handle')) return; selectedGroup = el.dataset.group; renderGroups(); renderItems(); });
+        el.addEventListener('click', function(e){ if(e.target.closest('.handle') || e.target.closest('.group-tools button')) return; selectedGroup = el.dataset.group; renderGroups(); renderItems(); });
       });
       els.groupList.querySelectorAll('[data-sort-group]').forEach(function(el){
         const groupId = el.dataset.sortGroup;
         const handle = el.querySelector('.handle');
         handle.addEventListener('dragstart', function(e){ dragGroupId = groupId; e.dataTransfer.effectAllowed = 'move'; });
+        handle.addEventListener('touchstart', function(){ dragGroupId = groupId; touchDragOverGroupId = groupId; }, { passive: true });
         el.addEventListener('dragover', function(e){ e.preventDefault(); });
-        el.addEventListener('drop', async function(e){
-          e.preventDefault();
-          if(!dragGroupId || dragGroupId === groupId) return;
-          const from = state.groups.findIndex(function(g){ return g.id === dragGroupId; });
-          const to = state.groups.findIndex(function(g){ return g.id === groupId; });
-          if(from < 0 || to < 0) return;
-          const moved = state.groups.splice(from, 1)[0];
-          state.groups.splice(to, 0, moved);
-          dragGroupId = null;
-          await persistState();
-          render();
-          showToast('グループ順を変更しました');
-        });
+        el.addEventListener('drop', async function(e){ e.preventDefault(); await reorderGroupById(groupId); });
       });
+      document.querySelectorAll('[data-move-up]').forEach(function(btn){ btn.addEventListener('click', async function(){ await moveGroup(btn.dataset.moveUp, -1); }); });
+      document.querySelectorAll('[data-move-down]').forEach(function(btn){ btn.addEventListener('click', async function(){ await moveGroup(btn.dataset.moveDown, 1); }); });
+      document.querySelectorAll('[data-delete-group]').forEach(function(btn){ btn.addEventListener('click', async function(){ await deleteGroup(btn.dataset.deleteGroup); }); });
+    }
+
+    async function reorderGroupById(targetGroupId){
+      if(!dragGroupId || dragGroupId === targetGroupId) return;
+      const from = state.groups.findIndex(function(g){ return g.id === dragGroupId; });
+      const to = state.groups.findIndex(function(g){ return g.id === targetGroupId; });
+      if(from < 0 || to < 0) return;
+      const moved = state.groups.splice(from, 1)[0];
+      state.groups.splice(to, 0, moved);
+      dragGroupId = null;
+      touchDragOverGroupId = null;
+      await persistState();
+      render();
+      showToast('グループ順を変更しました');
+    }
+
+    async function moveGroup(groupId, dir){
+      const from = state.groups.findIndex(function(g){ return g.id === groupId; });
+      const to = from + dir;
+      if(from < 0 || to < 0 || to >= state.groups.length) return;
+      const moved = state.groups.splice(from, 1)[0];
+      state.groups.splice(to, 0, moved);
+      await persistState();
+      render();
+    }
+
+    async function deleteGroup(groupId){
+      const group = state.groups.find(function(g){ return g.id === groupId; });
+      if(!group) return;
+      if(state.groups.length <= 1){ showToast('最後のグループは削除できません'); return; }
+      const hasItems = state.items.some(function(item){ return item.groupId === groupId; });
+      if(!confirm('グループ「' + group.name + '」を削除しますか？' + (hasItems ? '\n所属項目は「未分類」に移動します。' : ''))) return;
+      const fallback = ensureUncategorizedGroup(groupId);
+      if(hasItems){
+        state.items.forEach(function(item){ if(item.groupId === groupId) item.groupId = fallback.id; });
+      }
+      state.groups = state.groups.filter(function(g){ return g.id !== groupId; });
+      if(selectedGroup === groupId) selectedGroup = 'all';
+      await persistState();
+      render();
+      showToast('グループを削除しました');
+    }
+
+    function ensureUncategorizedGroup(excludeId){
+      let g = state.groups.find(function(x){ return x.name === '未分類' && x.id !== excludeId; });
+      if(!g){ g = { id: uid(), name: '未分類' }; state.groups.push(g); }
+      return g;
     }
 
     function renderItems(){
@@ -418,8 +454,6 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
 
     function openNewModal(){
       editingId = null;
-      generatedPassword = '';
-      els.generatedOutput.textContent = 'ここに生成結果が表示されます';
       els.modalTitle.textContent = '新規追加';
       els.titleInput.value = '';
       els.accountInput.value = '';
@@ -434,8 +468,6 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       const item = state.items.find(function(x){ return x.id === id; });
       if(!item) return;
       editingId = id;
-      generatedPassword = item.password || '';
-      els.generatedOutput.textContent = generatedPassword || 'ここに生成結果が表示されます';
       els.modalTitle.textContent = '編集';
       els.titleInput.value = item.title || '';
       els.accountInput.value = item.account || '';
@@ -522,6 +554,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       if(next1.length < 4){ showToast('4文字以上で設定してください'); return; }
       if(next1 !== next2){ showToast('一致しません'); return; }
       unlockedPassword = next1;
+      biometricSessionPassword = next1;
       await persistState();
       showToast('マスターパスワードを変更しました');
     }
@@ -535,9 +568,66 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
       showToast('サンプル状態に戻しました');
     }
 
-    function showFaceIdStatus(){
-      const supported = !!window.PublicKeyCredential;
-      alert(supported ? 'このブラウザでは生体認証系APIに対応している可能性があります。今回の版ではFace IDログイン自体は未接続で、対応状況の確認のみです。' : 'このブラウザでは生体認証系APIが見つかりませんでした。');
+    async function setupBiometricUnlock(){
+      if(!window.PublicKeyCredential || !navigator.credentials){ showToast('この端末はWebAuthn未対応です'); return; }
+      try {
+        const supported = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+        if(!supported){ showToast('Face ID / Touch ID が利用できません'); return; }
+        const challenge = crypto.getRandomValues(new Uint8Array(32));
+        const userId = crypto.getRandomValues(new Uint8Array(16));
+        const credential = await navigator.credentials.create({
+          publicKey: {
+            challenge: challenge,
+            rp: { name: 'PW App', id: location.hostname },
+            user: { id: userId, name: 'pw-user', displayName: 'PW User' },
+            pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
+            authenticatorSelection: { authenticatorAttachment: 'platform', userVerification: 'required' },
+            timeout: 60000,
+            attestation: 'none'
+          }
+        });
+        if(!credential){ showToast('Face ID設定に失敗しました'); return; }
+        localStorage.setItem(PASSKEY_KEY, bytesToBase64(new Uint8Array(credential.rawId)));
+        toggleBioUnlockButton();
+        showToast('Face ID / Touch ID を設定しました');
+      } catch(err){
+        if(String(err && err.name) === 'NotAllowedError') showToast('設定をキャンセルしました');
+        else showToast('Face ID設定に失敗しました');
+      }
+    }
+
+    function toggleBioUnlockButton(){
+      const hasSaved = !!localStorage.getItem(STORAGE_KEY);
+      const hasPasskey = !!localStorage.getItem(PASSKEY_KEY);
+      els.bioUnlockBtn.style.display = hasSaved && hasPasskey ? '' : 'none';
+    }
+
+    async function handleBiometricUnlock(){
+      const rawIdBase64 = localStorage.getItem(PASSKEY_KEY);
+      if(!rawIdBase64){ showToast('Face ID設定が未完了です'); return; }
+      if(!window.PublicKeyCredential || !navigator.credentials){ showToast('この端末はWebAuthn未対応です'); return; }
+      try {
+        const assertion = await navigator.credentials.get({
+          publicKey: {
+            challenge: crypto.getRandomValues(new Uint8Array(32)),
+            allowCredentials: [{ type: 'public-key', id: base64ToBytes(rawIdBase64) }],
+            userVerification: 'required',
+            timeout: 60000
+          }
+        });
+        if(!assertion){ showToast('Face ID認証に失敗しました'); return; }
+        if(!biometricSessionPassword){
+          showToast('安全のため一度マスターパスワードで解除してください');
+          return;
+        }
+        state = await decryptStored(biometricSessionPassword);
+        unlockedPassword = biometricSessionPassword;
+        unlockUI();
+        showToast('Face ID / Touch ID で解除しました');
+      } catch(err){
+        if(String(err && err.name) === 'NotAllowedError') showToast('Face ID認証をキャンセルしました');
+        else showToast('Face ID認証に失敗しました');
+      }
     }
 
     function updateStrengthBadge(){
@@ -608,9 +698,8 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
     function exportCsv(){
       const rows = [['title','account','password','memo','group']];
       state.items.forEach(function(item){ rows.push([item.title || '', item.account || '', item.password || '', item.memo || '', getGroupNameById(item.groupId) || '']); });
-      const csv = rows.map(function(r){ return r.map(csvEscape).join(','); }).join('
-');
-      downloadTextFile(csv, backupFileName('csv'), 'text/csv;charset=utf-8');
+      const csv = rows.map(function(r){ return r.map(csvEscape).join(','); }).join('\r\n');
+      downloadTextFile(csv, backupFileName('csv'), 'text/csv;charset=utf-8', true);
       showToast('CSVを書き出しました');
     }
 
@@ -621,9 +710,8 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
         ['Amazon','hiro@example.com','Amaz0n!234','買い物用','プライベート'],
         ['社内VPN','hiro.v','VPN-secure-001','期限あり','仕事']
       ];
-      const csv = rows.map(function(r){ return r.map(csvEscape).join(','); }).join('
-');
-      downloadTextFile(csv, 'sample_password_import.csv', 'text/csv;charset=utf-8');
+      const csv = rows.map(function(r){ return r.map(csvEscape).join(','); }).join('\r\n');
+      downloadTextFile(csv, 'sample_password_import.csv', 'text/csv;charset=utf-8', true);
       showToast('サンプルCSVを保存しました');
     }
 
@@ -640,12 +728,8 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
           else { inQuotes = !inQuotes; }
         } else if(c === ',' && !inQuotes){
           row.push(cell); cell = '';
-        } else if((c === '
-' || c === '
-') && !inQuotes){
-          if(c === '
-' && n === '
-') i++;
+        } else if((c === '\n' || c === '\r') && !inQuotes){
+          if(c === '\r' && n === '\n') i++;
           row.push(cell); rows.push(row); row = []; cell = '';
         } else {
           cell += c;
@@ -671,9 +755,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
 
     function csvEscape(v){
       const s = String(v == null ? '' : v);
-      if(s.indexOf('"') >= 0 || s.indexOf(',') >= 0 || s.indexOf('
-') >= 0 || s.indexOf('
-') >= 0){
+      if(s.indexOf('"') >= 0 || s.indexOf(',') >= 0 || s.indexOf('\n') >= 0 || s.indexOf('\r') >= 0){
         return '"' + s.replace(/"/g, '""') + '"';
       }
       return s;
@@ -765,7 +847,7 @@ Google,sample@gmail.com,Pass1234!,メイン,プライベート</span></div>
     }
 
     function backupFileName(ext){ const d = new Date(); const pad = function(n){ return String(n).padStart(2, '0'); }; return 'pw_backup_' + d.getFullYear() + pad(d.getMonth()+1) + pad(d.getDate()) + '_' + pad(d.getHours()) + pad(d.getMinutes()) + '.' + ext; }
-    function downloadTextFile(text, filename, mime){ const blob = new Blob([text], { type: mime }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = filename; a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000); }
+    function downloadTextFile(text, filename, mime, withBom){ const payload = withBom ? '\uFEFF' + text : text; const blob = new Blob([payload], { type: mime }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = filename; a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000); }
     function showToast(message){ els.toast.textContent = message; els.toast.classList.add('show'); clearTimeout(showToast.timer); showToast.timer = setTimeout(function(){ els.toast.classList.remove('show'); }, 1700); }
     function esc(str){ return String(str == null ? '' : str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
     function escAttr(str){ return esc(str).replace(/`/g, '&#96;'); }
